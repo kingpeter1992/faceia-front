@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+
+  <span>Face AI</span>
+
+  <span class="spacer"></span>
+
+
+
+  <button
+    mat-button
+    routerLink="/admin"
+    routerLinkActive="active-link">
+    Administration
+  </button>
+
+  <button
+    mat-button
+    routerLink="/enroll"
+    routerLinkActive="active-link">
+    Enregistrer
+  </button>
+
+
+  <button
+    mat-button
+    routerLink="/reconnaitre"
+    routerLinkActive="active-link">
+    Reconnaissance avec card
+  </button>
+
+
+  <button
+    mat-button
+    routerLink="/recognize"
+    routerLinkActive="active-link">
+    Reconnaissance Direct
+  </button>
+
+</mat-toolbar>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

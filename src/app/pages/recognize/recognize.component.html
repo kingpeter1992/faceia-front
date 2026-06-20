@@ -1,0 +1,58 @@
+<div class="container">
+
+  <!-- LEFT : CAMERA -->
+  <mat-card class="main-card">
+
+    <h2>🎯 Reconnaissance Faciale</h2>
+
+    <div class="camera">
+
+      <video #video autoplay></video>
+      <canvas #canvas></canvas>
+
+      <div class="overlay">
+        <span [class.unknown]="name === 'Inconnu ❌'">
+          {{ name }}
+        </span>
+      </div>
+
+    </div>
+
+    <!-- LOGS -->
+    <div class="logs">
+      <h4>Activité</h4>
+      <div *ngFor="let log of logs" class="log-item">
+        {{ log }}
+      </div>
+    </div>
+
+  </mat-card>
+
+  <!-- RIGHT : CARD -->
+  <mat-card class="user-card" *ngIf="showCard">
+
+    <!-- ✅ CAS PERSONNE TROUVÉ -->
+    <ng-container *ngIf="detectedPerson; else unknownTpl">
+
+      <img [src]="detectedPerson.imageUrl" class="avatar"/>
+
+      <h3>✅ Utilisateur reconnu</h3>
+
+      <p><strong>Nom :</strong> {{ detectedPerson.nom }}</p>
+      <p><strong>Prénom :</strong> {{ detectedPerson.prenom }}</p>
+      <p><strong>Section :</strong> {{ detectedPerson.section }}</p>
+
+    </ng-container>
+
+    <!-- ✅ CAS NON RECONNU -->
+    <ng-template #unknownTpl>
+      <h3 class="error">❌ Personne non reconnue</h3>
+    </ng-template>
+
+    <button mat-raised-button color="primary" (click)="closeCard()">
+      ✅ OK
+    </button>
+
+  </mat-card>
+
+</div>

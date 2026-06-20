@@ -1,0 +1,43 @@
+<mat-card class="main-card">
+
+  <h2>📊 Présences</h2>
+
+  <div *ngFor="let day of groupedPresences" class="day-card">
+
+    <!-- ✅ HEADER JOUR -->
+    <div class="day-header">
+
+      <div>
+        <h3>📅 {{ day.date }}</h3>
+        <span class="badge">{{ day.total }} présences</span>
+      </div>
+
+      <button mat-button color="primary" (click)="day.open = !day.open">
+        {{ day.open ? 'Fermer' : 'Voir détails' }}
+      </button>
+
+    </div>
+
+    <!-- ✅ DETAILS -->
+    <div *ngIf="day.open" class="details">
+
+      <div *ngFor="let p of day.items" class="item">
+
+        <img [src]="p.imageUrl" class="avatar"/>
+
+        <div class="info">
+          <strong>{{p.nom}} {{p.prenom}}</strong>
+          <div class="section">{{p.section}}</div>
+        </div>
+
+        <div class="time">
+          {{p.timestamp | date:'shortTime'}}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</mat-card>

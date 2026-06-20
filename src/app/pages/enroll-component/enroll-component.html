@@ -1,0 +1,53 @@
+<div class="container">
+
+  <mat-card class="card">
+
+    <h2 class="title">Enregistrement Utilisateur</h2>
+
+    <!-- CAMERA -->
+    <div class="camera-wrapper">
+      <video #video autoplay></video>
+      <canvas #canvas></canvas>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview-container" *ngIf="preview">
+      <img [src]="preview">
+    </div>
+
+    <!-- FORM -->
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Nom" [(ngModel)]="nom" name="nom">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Prénom" [(ngModel)]="prenom" name="prenom">
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <input matInput type="number" placeholder="Âge" [(ngModel)]="age" name="age">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Section" [(ngModel)]="section" name="section">
+      </mat-form-field>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="actions">
+      <button mat-raised-button color="accent" (click)="capture()">
+        📸 Capturer
+      </button>
+
+      <button mat-raised-button color="primary"
+              (click)="register()" [disabled]="!imageBlob">
+        ✅ Enregistrer
+      </button>
+    </div>
+
+  </mat-card>
+
+</div>

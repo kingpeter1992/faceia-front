@@ -1,0 +1,65 @@
+.main-card {
+  padding: 20px;
+}
+
+/* JOUR */
+.day-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+/* HEADER */
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BADGE */
+.badge {
+  background: #00c853;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* DETAILS */
+.details {
+  margin-top: 10px;
+}
+
+/* ITEM */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+/* IMAGE */
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* INFO */
+.info {
+  flex: 1;
+}
+
+/* SECTION */
+.section {
+  font-size: 12px;
+  color: gray;
+}
+
+/* TIME */
+.time {
+  font-weight: bold;
+}

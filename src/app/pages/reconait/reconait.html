@@ -1,0 +1,89 @@
+<div class="page">
+  <div class="page-inner">
+
+   @if (detectedPerson && !showCamera) {
+
+      <!-- CARTE PERSONNE -->
+      <div class="card">
+        <div class="glow"></div>
+
+        <div class="header">
+          <div class="id-badge">
+            ID #{{ detectedPerson.id }}
+          </div>
+
+          <img
+            class="avatar"
+            [src]="detectedPerson.imageUrl"
+            [alt]="detectedPerson.nom">
+        </div>
+
+        <div class="info">
+          <h2 class="name">
+            {{ detectedPerson.nom }}
+            <span class="verified">✔</span>
+          </h2>
+
+          <p class="fullname">
+            {{ detectedPerson.prenom }}
+          </p>
+
+          <div class="divider"></div>
+
+          <div class="grid">
+            <div class="box">
+              <span>Âge : </span>
+              <strong>{{ detectedPerson.age }}</strong>
+            </div>
+
+            <div class="box">
+              <span>Section: </span>
+              <strong>{{ detectedPerson.section }}</strong>
+            </div>
+          </div>
+
+              <button
+          class="btn primary"
+          (click)="confirmPresence()">
+          ✅ Confirmer présence
+        </button>
+        </div>
+      </div>
+
+    }
+
+
+    @if (showCamera) {
+
+      <!-- CAMERA -->
+      <div class="camera-box" >
+
+        <div class="camera-header">
+          🎯 Reconnaissance Faciale
+        </div>
+
+        <div class="camera-frame">
+
+          <video
+            #video
+            autoplay
+            muted
+            playsinline>
+          </video>
+
+          <canvas #canvas hidden></canvas>
+
+          <div class="scan-line"></div>
+
+        </div>
+
+        <div class="status">
+          🔴 En attente de détection...
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+</div>
