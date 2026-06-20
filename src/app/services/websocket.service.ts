@@ -8,7 +8,7 @@ export class WebSocketService {
   socket!: WebSocket;
 
   connect() {
-    this.socket = new WebSocket(`${this.apiUrl}ws`);
+    this.socket = new WebSocket(`${this.apiUrl}/ws`);
 
     this.socket.onmessage = (event) => {
       console.log("Log:", event.data);
