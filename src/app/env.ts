@@ -11,13 +11,12 @@ export const environment = {
 */
 
    production: true,
-   BASIC_URL: "https://back-u-learning-2026.onrender.com/api/",
-   BASIC_URL_AUTH_LOGIN: "https://back-u-learning-2026.onrender.com/api/auth/login",
-   BASIC_URL_REGISTER: "https://back-u-learning-2026.onrender.com/api/auth/register",
-   BASIC_URL_FORGOT: "https://back-u-learning-2026.onrender.com/api/auth/forgot-password",
-   BASIC_URL_RENITIALISATION: "https://back-u-learning-2026.onrender.com/api/auth/reset-password",
-   BASIC_URL_ADMIN: "https://back-u-learning-2026.onrender.com/api/admin",
-   FILE_URL: 'https://back-u-learning-2026.onrender.com'
-
+   BASIC_URL: "https://faceia-back.onrender.com",
+   BASIC_URL_AUTH_LOGIN: "https://faceia-back.onrender.com/api/auth/login",
+   BASIC_URL_REGISTER: "https://faceia-back.onrender.com/api/auth/register",
+   BASIC_URL_FORGOT: "https://faceia-back.onrender.com/api/auth/forgot-password",
+   BASIC_URL_RENITIALISATION: "https://faceia-back.onrender.com/api/auth/reset-password",
+   BASIC_URL_ADMIN: "https://faceia-back.onrender.com/api/admin",
+   FILE_URL: 'https://faceia-back.onrender.com'
 
 };
