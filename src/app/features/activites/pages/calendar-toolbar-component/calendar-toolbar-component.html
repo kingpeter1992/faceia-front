@@ -1,0 +1,21 @@
+<div class="calendar-toolbar-premium">
+  <div class="left-actions">
+    <button pButton icon="pi pi-angle-left" class="p-button-rounded p-button-text premium-nav-btn" (click)="previous.emit()"></button>
+    <button pButton label="Aujourd'hui" class="p-button-outlined premium-today-btn" (click)="today.emit()"></button>
+    <button pButton icon="pi pi-angle-right" class="p-button-rounded p-button-text premium-nav-btn" (click)="next.emit()"></button>
+  </div>
+
+  <div class="center-title">
+    <h2>Calendrier des Activités</h2>
+  </div>
+
+  <div class="right-actions">
+    <span class="p-buttonset">
+      <button pButton label="Mois" class="p-button-secondary" (click)="month.emit()"></button>
+      <button pButton label="Semaine" class="p-button-secondary" (click)="week.emit()"></button>
+      <button pButton label="Jour" class="p-button-secondary" (click)="day.emit()"></button>
+    </span>
+
+    <button pButton icon="pi pi-plus" label="Créer un culte" class="premium-create-btn" (click)="create.emit()"></button>
+  </div>
+</div>

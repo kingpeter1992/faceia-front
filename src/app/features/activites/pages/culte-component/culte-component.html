@@ -1,0 +1,201 @@
+<!-- LOADER GLOBAL -->
+<div class="loading-overlay" *ngIf="culteStore.loading()">
+  <div class="loader-card">
+    <div class="spinner"></div>
+    <h3>Chargement des cultes...</h3>
+    <p>Veuillez patienter pendant la récupération des données</p>
+  </div>
+</div>
+
+<div class="table-container animate-fade-in" *ngIf="!culteStore.loading()">
+
+  <!-- ZONE DES COMPTEURS KPI PREMIUM -->
+  <div class="summary-cards-grid">
+    <div class="kpi-card total-members">
+      <div class="kpi-badge progress-blue">Total</div>
+      <div class="kpi-data">
+        <span>Tous les Cultes</span>
+        <strong>{{ cultes.length }} <small>Événements</small></strong>
+      </div>
+      <div class="kpi-progress-bar bg-blue"></div>
+    </div>
+
+    <div class="kpi-card active-members">
+      <div class="kpi-badge progress-green">Direct</div>
+      <div class="kpi-data">
+        <span>Cultes en cours</span>
+        <strong>{{ enCoursCount }} <small>Actifs</small></strong>
+      </div>
+      <div class="kpi-progress-bar bg-green"></div>
+    </div>
+
+    <div class="kpi-card avenir-members">
+      <div class="kpi-badge counter-orange">Planifiés</div>
+      <div class="kpi-data">
+        <span>Cultes à venir</span>
+        <strong>{{ avenirCount }} <small>À venir</small></strong>
+      </div>
+      <div class="kpi-progress-bar bg-orange"></div>
+    </div>
+  </div>
+
+  <!-- HEADER DE LA PAGE ET ACTIONS -->
+  <div class="table-header-actions">
+    <div class="header-left">
+      <h2>Gestion des cultes</h2>
+      <p class="subtitle-text">Planification et suivi intelligent des événements de l’église</p>
+    </div>
+
+    <div class="actions-group">
+      <div class="search-field-premium-wrapper">
+        <input
+          type="text"
+          class="search-input-premium"
+          placeholder="Rechercher un culte, thème, orateur..."
+          [(ngModel)]="searchText"
+          (input)="searchCultes()"
+        />
+        <i class="pi pi-search search-icon"></i>
+      </div>
+
+      <button class="btn-premium-add" (click)="gotToCreate()">
+        <i class="pi pi-plus"></i> Nouveau culte
+      </button>
+    </div>
+  </div>
+
+  <!-- BARRE DE FILTRES ET TRI PREMIUM -->
+  <div class="filters-container-bar">
+    <div class="premium-chips-group">
+      <button class="chip-premium" [class.is-active]="selectedFilter === 'all'" (click)="filterCultes('all')">
+        Tous les cultes
+      </button>
+      <button class="chip-premium" [class.is-active]="selectedFilter === 'encours'" (click)="filterCultes('encours')">
+        <span class="status-dot dot-green"></span> En cours
+      </button>
+      <button class="chip-premium" [class.is-active]="selectedFilter === 'avenir'" (click)="filterCultes('avenir')">
+        <span class="status-dot dot-blue"></span> À venir
+      </button>
+      <button class="chip-premium" [class.is-active]="selectedFilter === 'termine'" (click)="filterCultes('termine')">
+        <span class="status-dot dot-gray"></span> Passés
+      </button>
+    </div>
+
+    <div class="sort-box-premium">
+      <label>Trier par :</label>
+      <select [(ngModel)]="selectedSort" (change)="applyFilters()" class="select-premium">
+        <option value="recent">Plus récent d'abord</option>
+        <option value="ancien">Plus ancien d'abord</option>
+        <option value="date">Date de fin</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- GRILLE DE CARTES PREMIUM -->
+  <div class="grid-premium">
+    <article *ngFor="let culte of paginatedCultes" class="premium-event-card" [ngClass]="getStatusClass(culte)">
+
+      <!-- LIGNE INDICATEUR SUPÉRIEURE -->
+      <div class="card-indicator-top"></div>
+
+      <div class="card-inner-padding">
+        <!-- ENTÊTE DE LA CARTE -->
+        <div class="card-header-meta">
+          <span class="badge-status-tag">{{ getStatus(culte) }}</span>
+          <span class="time-range-badge">
+            <i class="pi pi-clock"></i>
+            {{ culte.dateDebut | date:'HH:mm' }} - {{ culte.dateFin | date:'HH:mm' }}
+          </span>
+        </div>
+
+        <h3 class="cult-title" (click)="openDialog(culte)">{{ culte.nom }}</h3>
+
+        <!-- BLOC DE THÈME -->
+        <div class="theme-showcase-box">
+          <div class="theme-title-row">
+            <i class="pi pi-bookmark-fill"></i>
+            <strong>{{ culte.theme || 'Aucun thème spécifié' }}</strong>
+          </div>
+          <p class="theme-subtitle" *ngIf="culte.sousTitre">{{ culte.sousTitre }}</p>
+        </div>
+
+<!-- ZONE INTERVENANTS (PORTRAITS ÉPURÉS & INTERVENANTS SECONDAIRES) -->
+
+<div class="intervenants-section">
+  <!-- Orateur Principal -->
+  <div class="intervenant-profile">
+    <img [src]="culte.affichage1 || '🙍🏿‍♂️'" alt="Orateur" class="intervenant-avatar">
+    <div class="intervenant-info">
+      <small>Orateur</small>
+      <span class="name-ellipsis">{{ culte.orateur }}</span>
+    </div>
+  </div>
+
+  <!-- Modérateur Principal -->
+  <div class="intervenant-profile" *ngIf="culte.moderateur">
+    <span  class="">
+      🙍🏿‍♂️
+    </span>
+    <div class="intervenant-info">
+      <small>Modérateur</small>
+      <span class="name-ellipsis">{{ culte.moderateur }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- NOUVEAU : MINI AVATAR STACK DES INTERVENANTS SECONDAIRES -->
+<div class="secondary-intervenants-row" *ngIf="culte.intervenants && culte.intervenants.length > 0">
+  <div class="avatar-group">
+    <div class="avatar-stack-item" *ngFor="let inter of culte.intervenants | slice:0:3" [title]="inter.nom + ' (' + inter.motif + ')'">
+      <img [src]="inter.affichage || '🙍🏿‍♂️'" [alt]="inter.nom">
+    </div>
+    <div class="avatar-stack-more" *ngIf="culte.intervenants.length > 3">
+      +{{ culte.intervenants.length - 3 }}
+    </div>
+  </div>
+  <span class="secondary-txt-info">
+    {{ culte.intervenants.length }} intervenant{{ culte.intervenants.length > 1 ? 's' : '' }} secondaire{{ culte.intervenants.length > 1 ? 's' : '' }}
+  </span>
+</div>
+        <!-- DATE COMPLÈTE EN BAS -->
+        <div class="card-date-footer">
+          <div class="date-display-badge">
+            <i class="pi pi-calendar"></i>
+            <span>{{ culte.dateDebut | date:'dd MMMM yyyy' }}</span>
+          </div>
+
+          <button class="btn-action-view-more" (click)="openDialog(culte)">
+            <i class="pi pi-eye"></i> Voir détails
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- EMPTY STATE INTERNE -->
+  <div class="empty-state-card" *ngIf="filteredCultes.length === 0">
+    <i class="pi pi-calendar-times empty-icon"></i>
+    <h3>Aucun culte trouvé</h3>
+    <p>Aucun enregistrement ne correspond aux critères actuels de sélection.</p>
+  </div>
+
+  <!-- PAGINATION FLUIDE PREMIUM -->
+  <div class="premium-pagination-container" *ngIf="filteredCultes.length > 0">
+    <div class="pagination-text-info">
+     Affichage de <span>{{ ((currentPage - 1) * itemsPerPage) + 1 }}</span> à
+<span>{{ maxItemIndex }}</span> sur <span>{{ filteredCultes.length }}</span> événements
+    </div>
+
+    <div class="premium-pages-list">
+      <button class="nav-arrow-btn" (click)="prevPage()" [disabled]="currentPage === 1">
+        <i class="pi pi-chevron-left"></i>
+      </button>
+
+<span class="numeric-page-indicator">Page {{ currentPage }} sur {{ totalPages }}</span>
+      <button class="nav-arrow-btn" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredCultes.length">
+        <i class="pi pi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+</div>

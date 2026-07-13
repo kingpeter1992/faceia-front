@@ -1,0 +1,53 @@
+<div class="page-dashboard-layout">
+
+  <!-- BARRE DE RECHERCHE PREMIUM AVANCÉE (CULTE & ORATEUR) -->
+  <div class="premium-filter-bar">
+    <div class="filter-title">
+      <mat-icon style="color: #4f46e5;">smart_button</mat-icon>
+      <span>Filtres de recherche</span>
+    </div>
+
+    <div class="filter-inputs-grid">
+      <mat-form-field appearance="outline" class="u-church-field">
+        <mat-label>Rechercher par Culte ou Thème...</mat-label>
+        <input matInput [formControl]="searchCulteControl" placeholder="Ex: Culte de célébration..." />
+        <mat-icon matSuffix>church</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="u-church-field">
+        <mat-label>Rechercher par Orateur...</mat-label>
+        <input matInput [formControl]="searchOrateurControl" placeholder="Ex: Pasteur Christian..." />
+        <mat-icon matSuffix>person_search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- CONTAINER DU CALENDRIER -->
+  <div class="calendar-card-premium">
+
+    <app-calendar-toolbar-component
+      (previous)="facade.previous()"
+      (next)="facade.next()"
+      (today)="facade.today()"
+      (month)="facade.month()"
+      (week)="facade.week()"
+      (day)="facade.day()"
+      (create)="facade.create()">
+    </app-calendar-toolbar-component>
+
+    <div class="calendar-body">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- DIALOG DES DÉTAILS DE L'ÉVÉNEMENT -->
+<app-event-details-dialog-component
+  [event]="facade.selectedEvent()"
+  [visible]="facade.dialogVisible()"
+  (visibleChange)="facade.closeDialog()"
+  (edit)="facade.edit($event)"
+  (delete)="facade.delete($event)">
+</app-event-details-dialog-component>

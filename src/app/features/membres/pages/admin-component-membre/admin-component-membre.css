@@ -1,0 +1,433 @@
+/* CONTAINER DE LA PAGE */
+.table-container {
+  padding: 10px 24px 24px 24px;
+  background: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+/* GRILLE DES COMPTEURS KPI STYLE COMPLET SMART CHURCH */
+.summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  height: 110px;
+  box-sizing: border-box;
+}
+
+/* Bordures spécifiques sur la gauche pour refléter le style Smart Church */
+.total-members { border-left: 5px solid #3b82f6; }
+.active-members { border-left: 5px solid #10b981; }
+.accueil-members { border-left: 5px solid #f97316; }
+
+.kpi-data span {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kpi-data strong {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 8px;
+  display: block;
+}
+.kpi-data strong small {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 4px;
+}
+
+/* Badges de progression en haut à droite */
+.kpi-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.progress-blue { background: #dbeafe; color: #1e40af; }
+.progress-green { background: #d1fae5; color: #065f46; }
+.counter-orange { background: #ffedd5; color: #c2410c; font-size: 14px; }
+
+/* Mini barre d'avancement au bas des cartes */
+.kpi-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 65%;
+  border-radius: 0 4px 4px 0;
+}
+.bg-blue { background: #3b82f6; }
+.bg-green { background: #10b981; }
+
+/* SECTIONS ANALYSES ET GRAPHIQUES */
+.chart-section-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
+}
+.section-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.section-title-bar h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+.btn-toggle-chart {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.btn-toggle-chart:hover { background: #e2e8f0; }
+
+.charts-flex-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+.chart-card {
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+.chart-card h4 {
+  margin: 0 0 14px 0;
+  font-size: 14px;
+  color: #475569;
+  font-weight: 600;
+}
+.chart-container {
+  position: relative;
+  height: 240px;
+  width: 100%;
+}
+
+/* EN-TÊTE DU TABLEAU ET ACTIONS ACTIONS ACCROCHÉES EN HAUT */
+.table-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background: transparent;
+}
+.header-left h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 12px 0;
+}
+.search-field-premium {
+  width: 320px;
+}
+::v-deep .search-field-premium .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 10px !important;
+}
+
+/* BOUTONS ACTIONS EXPORTS STYLE IDENTIQUE SMART CHURCH FINANCE */
+.actions-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.btn-premium-pdf {
+  background: #fff5f5 !important;
+  color: #e11d48 !important;
+  font-weight: 600 !important;
+  border: 1px solid #fecdd3 !important;
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+}
+.btn-premium-excel {
+  background: #f0fdf4 !important;
+  color: #16a34a !important;
+  font-weight: 600 !important;
+  border: 1px solid #bbf7d0 !important;
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+}
+.btn-premium-add {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+}
+
+/* ENVELOPPE DE TABLE CONTENANT LE TABLEAU MATÉRIEL CORRIGÉ */
+.premium-table-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.custom-premium-table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+}
+
+::v-deep .custom-premium-table th.mat-mdc-header-cell {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 16px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+::v-deep .custom-premium-table td.mat-mdc-cell {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  font-size: 14px;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.premium-row-hover:hover {
+  background-color: #f8fafc !important;
+  transition: background-color 0.2s ease;
+}
+
+/* CELLULE DE COMPOSANT MEMBRE AVEC AVATAR */
+.user-profile-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.user-fullname {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 14.5px;
+}
+.user-meta {
+  font-size: 12px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.user-meta mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  color: #94a3b8;
+}
+
+/* BADGES ET COMPOSANTS DE STATUS STYLISÉS */
+.badge-invite-box {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+}
+.badge-avis-tag {
+  background: #f0f5ff;
+  color: #1d4ed8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.premium-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dot-green { background-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+.dot-red { background-color: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+.status-label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* BOUTONS D'ACTION RONDS SUR LE TABLEAU */
+.premium-action-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+.action-circle-btn {
+  width: 34px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease;
+}
+.action-circle-btn mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+.action-circle-btn.view { color: #64748b; background: #f1f5f9; }
+.action-circle-btn.view:hover { background: #cbd5e1; color: #1e293b; }
+.action-circle-btn.edit { color: #4f46e5; background: #eef2ff; }
+.action-circle-btn.edit:hover { background: #c7d2fe; }
+.action-circle-btn.delete { color: #ef4444; background: #fee2e2; }
+.action-circle-btn.delete:hover { background: #fca5a5; }
+
+/* PAGINATION ZONE PREMIUM (Alignée au millimètre près en bas) */
+.premium-pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 4px;
+}
+.pagination-text-info {
+  font-size: 14px;
+  color: #64748b;
+}
+.pagination-text-info span {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.premium-pages-list {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.nav-arrow-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+}
+.nav-arrow-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.numeric-page-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+}
+.numeric-page-btn.is-active {
+  background: #4f46e5;
+  color: #ffffff;
+  border-color: #4f46e5;
+}
+
+/* INTERFACES VIDES (EMPTY STATE) */
+.empty-state-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 40px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+/* ANIMATION FLUIDE SÉQUENTIELLE */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.dot-orange {
+  background-color: #f59e0b !important;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+.badge-avis-tag {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.italic-text {
+  font-style: italic;
+  font-size: 12px;
+}

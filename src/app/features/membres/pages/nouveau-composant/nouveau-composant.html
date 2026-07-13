@@ -1,0 +1,128 @@
+<div class="premium-dialog-container">
+
+  <!-- EN-TÊTE FIXE PREMIUM DYNAMIQUE -->
+  <div class="dialog-premium-header">
+    <div class="header-title-group">
+      <div class="header-icon-box">
+        <mat-icon>{{ isEditMode ? 'edit' : 'person_add' }}</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2>{{ isEditMode ? '✏️ Modifier le profil membre' : '➕ Nouveau visiteur / Membre' }}</h2>
+        <p>{{ isEditMode ? 'Apportez vos modifications aux informations ci-dessous' : 'Veuillez remplir les étapes ci-dessous pour enregistrer l\'utilisateur' }}</p>
+      </div>
+    </div>
+    <button type="button" mat-icon-button class="btn-close-dialog" (click)="close()" matTooltip="Fermer">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- CORPS DU FORMULAIRE -->
+  <div class="dialog-premium-content">
+    <form [formGroup]="form" (ngSubmit)="submitForm()"> <!-- ✅ Appel à submitForm() -->
+
+      <!-- SECTION 01 -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-left">
+            <span class="step">01</span>
+            <span class="section-title">Informations générales</span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom</label>
+            <input formControlName="nom" placeholder="Ex: Dupont">
+          </div>
+
+          <div class="form-group">
+            <label>Prénom</label>
+            <input formControlName="prenom" placeholder="Ex: Jean">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input formControlName="email" type="email" placeholder="jean.dupont@exemple.com">
+          </div>
+
+          <div class="form-group">
+            <label>Téléphone</label>
+            <input formControlName="telephone" placeholder="Ex: +33 6 ...">
+          </div>
+
+          <div class="form-group full">
+            <label>Adresse</label>
+            <input formControlName="adresse" placeholder="Numéro, rue et ville...">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 02 -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-left">
+            <span class="step">02</span>
+            <span class="section-title">Informations spirituelles</span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Qui vous a invité ?</label>
+            <input formControlName="invite" placeholder="Nom de la personne ou événement">
+          </div>
+
+          <div class="form-group full">
+            <label>Église d'attache</label>
+            <select formControlName="eglise">
+              <option value="Oui">Oui, dispose d'une église</option>
+              <option value="Non">Non, aucune église</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 03 -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-left">
+            <span class="step">03</span>
+            <span class="section-title">Feedback & Avis</span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Qualité d'accueil</label>
+            <select formControlName="accueil">
+              <option value="Excellent">🌟 Excellent</option>
+              <option value="Bon">👍 Bon</option>
+              <option value="Moyen">👌 Moyen</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label>Votre avis / Remarques</label>
+            <input formControlName="avis" placeholder="Laissez vos impressions ici...">
+          </div>
+        </div>
+      </div>
+
+      <!-- PIED DE PAGE ET ACTIONS DYNAMIQUES -->
+      <div class="form-actions">
+        <button type="button" class="btn-reset" (click)="resetForm()">
+          <mat-icon>refresh</mat-icon> {{ isEditMode ? 'Annuler les changements' : 'Réinitialiser' }}
+        </button>
+
+        <button type="submit" class="btn-save" [disabled]="form.invalid || store.loading()">
+          <span *ngIf="!store.loading()">
+            <mat-icon>{{ isEditMode ? 'edit' : 'save' }}</mat-icon>
+            {{ isEditMode ? 'Mettre à jour le membre' : 'Enregistrer le membre' }}
+          </span>
+          <span *ngIf="store.loading()"><mat-icon class="spinner-icon">hourglass_empty</mat-icon> Envoi en cours...</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

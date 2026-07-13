@@ -1,0 +1,24 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../env';
+import { UserResponse, AssignRoleRequest } from '../model/admin-user.model';
+
+
+@Injectable({ providedIn: 'root' })
+export class AdminUserService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${environment.BASIC_URL}admin/users`;
+
+  getAll(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(this.apiUrl);
+  }
+
+  getEnAttente(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${this.apiUrl}/en-attente`);
+  }
+
+  assignRole(userId: number, payload: AssignRoleRequest): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`${this.apiUrl}/${userId}/role`, payload);
+  }
+}

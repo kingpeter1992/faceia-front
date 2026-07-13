@@ -1,0 +1,129 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '600px', 'border-radius': '24px' }" [draggable]="false"
+  [resizable]="false" [showHeader]="false" (onHide)="close()" styleClass="u-church-dialog">
+
+  <div class="dialog-wrapper" *ngIf="culte">
+
+    <!-- HEADER DEGRADÉ COMPACT -->
+    <div class="header">
+      <div class="top-bar">
+        <span class="badge" [ngClass]="getStatusClass()">{{ getStatus() }}</span>
+        <button class="close-btn" (click)="close()"><i class="pi pi-times"></i></button>
+      </div>
+
+      <h2>{{ culte.nom }}</h2>
+      <p class="theme-text">{{ culte.theme }}</p>
+      <p class="subtheme-text" *ngIf="culte.sousTitre">{{ culte.sousTitre }}</p>
+
+      <!-- HORAIRES EN BLOCS COMPACTS -->
+      <div class="dates">
+        <div class="date-box">
+          <i class="pi pi-calendar"></i> {{ culte.dateDebut | date:'dd/MM/yyyy' }}
+          <i class="pi pi-clock"></i> {{ culte.dateDebut | date:'HH:mm' }}
+        </div>
+        <div class="date-box">
+          <i class="pi pi-calendar"></i> {{ culte.dateFin | date:'dd/MM/yyyy' }}
+          <i class="pi pi-clock"></i> {{ culte.dateFin | date:'HH:mm' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- CORPS DU DIALOGUE -->
+    <div class="body">
+
+      <!-- ZONE DES INTERVENANTS PRINCIPAUX ET SECONDAIRES -->
+      <div class="intervenants-container">
+
+        <!-- 1. ORATEUR PRINCIPAL AU CENTRE -->
+        <div class="orateur-central-profile">
+          <div class="avatar-wrapper">
+            <img [src]="culte.affichage1 || 'assets/user.png'" alt="Orateur" />
+            <span class="role-badge">Orateur Principal</span>
+          </div>
+          <h3>{{ culte.orateur }}</h3>
+        </div>
+
+        <div class="secondary-row">
+          <!-- 2. MODÉRATEUR SIMPLIFIÉ (AVEC EMOJI HUMAIN) -->
+          <div class="moderateur-item" *ngIf="culte.moderateur">
+            <div class="emoji-avatar">👤</div>
+            <div class="item-info">
+              <small>Modérateur</small>
+              <b>{{ culte.moderateur }}</b>
+            </div>
+          </div>
+
+          <!-- 3. LES INTERVENANTS SECONDAIRES DYNAMIQUES -->
+          <!-- 3. LES INTERVENANTS SECONDAIRES DYNAMIQUES -->
+          <ng-container *ngIf="culte.intervenants && culte.intervenants.length > 0">
+            <div class="intervenant-item" *ngFor="let inter of culte.intervenants">
+              <img [src]="inter.affichage || 'assets/user.png'" alt="Intervenant" class="mini-avatar" />
+              <div class="item-info">
+                <small>{{ inter.motif }}</small>
+                <b>{{ inter.nom }}</b>
+              </div>
+            </div> <!-- Fermeture correcte de la div de l'élément -->
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- COMPTEUR DE PARTICIPANTS -->
+      <div class="participants">
+        <div class="presence">
+          Présence : <b>{{ participantsCount }} personne(s)</b>
+        </div>
+        <div class="progress">
+          <div class="bar" [style.width.%]="(participantsCount / 200) * 100"></div>
+        </div>
+      </div>
+
+      <!-- GRILLE D'ACTIONS SÉCURISÉE IDENTIQUE -->
+      <div class="actions-grid">
+
+        <!-- INVITER -->
+        <div class="action-card" [class.disabled]="!canExecuteAction()"
+          [title]="!canExecuteAction() ? 'Réservé à l\'administrateur une fois le culte démarré' : ''"
+          (click)="canExecuteAction() && invite()">
+          <i class="pi pi-user-plus text-purple"></i>
+          <span>Inviter</span>
+        </div>
+
+        <!-- DUPLIQUER -->
+        <div class="action-card" (click)="duplicate()">
+          <i class="pi pi-copy text-gray"></i>
+          <span>Dupliquer</span>
+        </div>
+
+        <!-- MODIFIER -->
+        <div class="action-card" (click)="edit()">
+          <i class="pi pi-pencil text-dark"></i>
+          <span>Modifier</span>
+        </div>
+
+        <!-- OFFRANDE -->
+        <div class="action-card" [class.disabled]="!canExecuteAction()"
+          [title]="!canExecuteAction() ? 'Réservé à l\'administrateur une fois le culte démarré' : ''"
+          (click)="canExecuteAction() && offrande()">
+          <i class="pi pi-wallet text-orange"></i>
+          <span>Offrande</span>
+        </div>
+
+        <!-- COMPTAGE -->
+        <div class="action-card" [class.disabled]="!canExecuteAction()"
+          [title]="!canExecuteAction() ? 'Réservé à l\'administrateur une fois le culte démarré' : ''"
+          (click)="canExecuteAction() && ouvrirComptage()">
+          <span style="font-size: 18px; margin-bottom: 8px;">📊</span>
+          <span>Comptage</span>
+        </div>
+
+        <!-- RÉSUMÉ -->
+        <div class="action-card full-width-mobile" [class.disabled]="!canExecuteAction()"
+          [title]="!canExecuteAction() ? 'Réservé à l\'administrateur une fois le culte démarré' : ''">
+          <i class="pi pi-file-text text-red"></i>
+          <span>Résumé</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</p-dialog>

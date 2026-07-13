@@ -1,65 +1,190 @@
-.main-card {
-  padding: 20px;
+.presence-container {
+  padding: 24px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, .08);
 }
 
-/* JOUR */
+/* ===========================
+HEADER
+=========================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.page-header p {
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+  color: white;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  transition: .3s;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ===========================
+DAY CARD
+=========================== */
+
 .day-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  padding: 10px;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 25px rgba(0,0,0,.04);
 }
 
-/* HEADER */
 .day-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 18px 22px;
 }
 
-/* BADGE */
-.badge {
-  background: #00c853;
+.date-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.calendar-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
   color: white;
-  padding: 5px 10px;
-  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.day-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.badge {
+  margin-top: 4px;
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 6px 12px;
+  border-radius: 999px;
   font-size: 12px;
+  font-weight: 700;
 }
 
-/* DETAILS */
+.toggle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: none;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+/* ===========================
+DETAILS
+=========================== */
+
 .details {
-  margin-top: 10px;
+  border-top: 1px solid #f1f5f9;
 }
 
-/* ITEM */
-.item {
+.presence-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 8px;
-  border-bottom: 1px solid #eee;
+  gap: 16px;
+  padding: 16px 22px;
+  transition: .2s;
 }
 
-/* IMAGE */
+.presence-item:hover {
+  background: #f8fafc;
+}
+
 .avatar {
-  width: 45px;
-  height: 45px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #e2e8f0;
 }
 
-/* INFO */
-.info {
+.member-info {
   flex: 1;
 }
 
-/* SECTION */
-.section {
-  font-size: 12px;
-  color: gray;
+.member-info strong {
+  display: block;
+  font-size: 15px;
+  color: #0f172a;
 }
 
-/* TIME */
-.time {
-  font-weight: bold;
+.member-info span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.presence-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  font-weight: 700;
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+  .page-header{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .actions{
+    flex-wrap: wrap;
+  }
+
 }

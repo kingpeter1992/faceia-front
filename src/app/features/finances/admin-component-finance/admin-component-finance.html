@@ -1,0 +1,261 @@
+<div class="finance-page" [ngClass]="{'dark-mode': isDarkMode}">
+
+  <!-- HEADER PREMIUM -->
+  <div class="page-header animate-fade-in">
+    <div class="title-zone">
+      <h2><span class="icon-pulse">💰</span> Smart Church Finance</h2>
+      <p>Système de gestion et d'analytics des contributions en temps réel</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-theme" (click)="toggleDarkMode()" title="Changer de thème">
+        {{ isDarkMode ? '☀️ Mode Clair' : '🌙 Mode Sombre' }}
+      </button>
+
+<div class="action-buttons-container" style="display: flex; gap: 12px; margin-bottom: 15px;">
+  <button class="btn-premium pdf" (click)="exportPDF()">
+    <i class="pi pi-file-pdf"></i> Exporter en PDF Premium
+  </button>
+
+  <button class="btn-premium excel" (click)="exportExcel()">
+    <i class="pi pi-file-excel"></i> Exporter en Excel Structuré
+  </button>
+</div>
+
+      <button class="btn btn-add" (click)="openAddEditDialog()">
+        <span class="btn-icon">➕</span> Ajouter Offrande
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI METRICS GRID -->
+  <div class="kpi-grid">
+    <div class="kpi-card blue animate-scale-up">
+      <div class="kpi-header">
+        <span>Total CDF</span>
+        <span class="trend positive">+8%</span>
+      </div>
+      <b class="kpi-value">{{ totalCDF | number }} <small>CDF</small></b>
+      <div class="kpi-progress">
+        <div class="bar" style="width: 78%"></div>
+      </div>
+    </div>
+
+    <div class="kpi-card green animate-scale-up">
+      <div class="kpi-header">
+        <span>Total USD</span>
+        <span class="trend positive">+12%</span>
+      </div>
+      <b class="kpi-value">{{ totalUSD | number }} <small>USD</small></b>
+      <div class="kpi-progress">
+        <div class="bar" style="width: 65%"></div>
+      </div>
+    </div>
+
+    <div class="kpi-card orange animate-scale-up">
+      <div class="kpi-header">
+        <span>Offrandes</span>
+        <span class="badge-count">{{ countOffrande }}</span>
+      </div>
+      <b class="kpi-value">{{ countOffrande }} <small>Reçues</small></b>
+    </div>
+
+    <div class="kpi-card purple animate-scale-up">
+      <div class="kpi-header">
+        <span>Dîmes & Dons</span>
+        <span class="badge-count bg-purple">{{ countDime + countDon }}</span>
+      </div>
+      <b class="kpi-value">{{ countDime }} <small>Dîmes</small> / {{ countDon }} <small>Dons</small></b>
+    </div>
+  </div>
+
+  <!-- CHARTS / CASHFLOW ZONE -->
+  <div class="chart-section-wrapper animate-fade-in">
+    <div class="section-title-bar">
+      <h3>📈 Graphiques & Analyse CashFlow</h3>
+      <button class="btn-toggle-chart" (click)="toggleChart()">
+        {{ showChart ? 'Masquer le graphique ✕' : 'Afficher l'analyse graphique 📊' }}
+      </button>
+    </div>
+
+    <!-- CHARTS / CASHFLOW ZONE -->
+    <div class="chart-section-wrapper animate-fade-in">
+      <div class="section-title-bar">
+        <h3>📈 Graphiques & Analyse CashFlow</h3>
+        <button class="btn-toggle-chart" (click)="toggleChart()">
+          {{ showChart ? 'Masquer les graphiques ✕' : 'Afficher les graphiques 📊' }}
+        </button>
+      </div>
+
+      <div class="charts-flex-grid" *ngIf="showChart">
+        <!-- Graphique 1: Évolution Mensuelle -->
+        <div class="chart-card">
+          <h4>Evolution des recettes (CashFlow)</h4>
+          <div class="chart-container">
+            <canvas id="cashflowChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Graphique 2: Comparatif Devise Horizontale -->
+        <div class="chart-card">
+          <h4>Répartition par Devise (USD vs CDF)</h4>
+          <div class="chart-container">
+            <canvas id="deviseChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVANCED SEARCH ENGINE (DataTable Premium Filters) -->
+  <div class="search-engine-card animate-fade-in" [formGroup]="searchForm">
+    <div class="search-grid">
+      <div class="input-wrapper main-search">
+        <label>Recherche globale</label>
+        <div class="input-icon-group">
+          <span class="input-icon">🔍</span>
+          <input type="text" formControlName="searchQuery" placeholder="Donateur, mot-clé, note...">
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label>Type de Don</label>
+        <select formControlName="typeDon">
+          <option value="ALL">Tous les types</option>
+          <option value="offrande">Offrandes</option>
+          <option value="dime">Dîmes</option>
+          <option value="don">Dons</option>
+        </select>
+      </div>
+
+      <div class="input-wrapper">
+        <label>Devise</label>
+        <select formControlName="devise">
+          <option value="ALL">Toutes devises</option>
+          <option value="CDF">CDF</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
+
+      <div class="input-wrapper">
+        <label>Date Début</label>
+        <input type="date" formControlName="dateDebut">
+      </div>
+
+      <div class="input-wrapper">
+        <label>Date Fin</label>
+        <input type="date" formControlName="dateFin">
+      </div>
+
+      <div class="input-wrapper">
+        <label>Culte / Événement</label>
+        <input type="text" formControlName="culte" placeholder="Ex: Culte d'enseignement">
+      </div>
+    </div>
+  </div>
+
+  <!-- DATATABLE PREMIUM -->
+  <div class="table-container animate-fade-in">
+    <div class="premium-table">
+      <!-- Table Header -->
+      <div class="table-header-row">
+        <div class="col-xs">#</div>
+        <div class="col-lg sortable" (click)="sortBy('donateur')">
+          Donateur
+          <span class="sort-icon" *ngIf="sortColumn === 'donateur'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+        </div>
+
+        <div class="col-md sortable" (click)="sortBy('montant')">
+          Montant
+          <span class="sort-icon" *ngIf="sortColumn === 'montant'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+        </div>
+
+        <div class="col-md sortable" (click)="sortBy('date')">
+          Date
+          <span class="sort-icon" *ngIf="sortColumn === 'date'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+        </div>
+        <div class="col-md">Paiement</div>
+        <div class="col-md">Type</div>
+        <div class="col-action">Actions</div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredDonations.length === 0">
+        <p>🚫 Aucune transaction trouvée correspondant à vos filtres.</p>
+      </div>
+
+      <!-- Table Rows Loop -->
+      <div class="table-data-row animate-row" *ngFor="let d of paginatedDonations; let i = index">
+        <div class="col-xs index-cell">{{ (page - 1) * pageSize + i + 1 }}</div>
+
+        <div class="col-lg user-cell">
+          <div class="avatar-premium">
+            <span>{{ d.donateur.substring(0,2) | uppercase }}</span>
+          </div>
+          <div class="user-info">
+            <span class="name">{{ d.donateur }}</span>
+            <span class="sub-text">{{ d.culteNom }}</span>
+          </div>
+        </div>
+
+        <div class="col-md amount-cell" [ngClass]="d.devise">
+          <span class="amount-val">{{ d.montant | number }}</span>
+          <span class="currency-badge">{{ d.devise }}</span>
+        </div>
+
+        <div class="col-md date-cell">{{ d.date | date:'dd MMM yyyy' }}</div>
+
+        <div class="col-md">
+          <span class="method-badge">{{ d.operation }}</span>
+        </div>
+
+        <div class="col-md">
+          <span class="premium-badge" [ngClass]="d.typeDon">
+            {{ d.typeDon | uppercase }}
+          </span>
+        </div>
+
+        <div class="col-action actions-cell">
+          <div class="action-menu-wrapper">
+
+            <!-- ✏️ Bouton Modifier : Accessible uniquement par l'ADMIN -->
+            <button *ngIf="hasRole(['ADMIN'])" class="action-btn edit" (click)="openAddEditDialog(d)"
+              title="Modifier (Admin)">
+              ✏️
+            </button>
+
+            <!-- 🖨️ Bouton Imprimer : Accessible par tout le monde (Admin, Pasteur, Responsables) -->
+            <button class="print-btn" (click)="printReceipt(d)" title="Imprimer le ticket">
+              <i class="pi pi-print"></i> Reçu
+            </button>
+
+            <!-- 🗑️ Bouton Supprimer : Accessible uniquement par l'ADMIN -->
+            <button *ngIf="hasRole(['ADMIN'])" class="action-btn delete" (click)="deleteDonation(d.id)"
+              title="Supprimer (Admin)">
+              🗑️
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMART PAGINATION -->
+    <div class="pagination-panel">
+      <div class="pagination-info">
+        Affichage de <b>{{ paginatedDonations.length }}</b> sur <b>{{ filteredDonations.length }}</b> entrées
+      </div>
+
+      <div class="pagination-controls">
+        <button class="p-btn" (click)="prevPage()" [disabled]="page === 1">
+          ◀ Précédent
+        </button>
+        <span class="page-indicator">Page <b>{{ page }}</b> / {{ totalPages }}</span>
+        <button class="p-btn" (click)="nextPage()" [disabled]="page === totalPages">
+          Suivant ▶
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

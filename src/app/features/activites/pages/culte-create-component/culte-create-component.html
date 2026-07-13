@@ -1,0 +1,201 @@
+<div class="page">
+  <app-loader-component [loading]="culteStore.loading()"></app-loader-component>
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h2>
+        <i class="pi" [ngClass]="id ? 'pi-pencil' : 'pi-calendar-plus'"></i>
+        {{ id ? 'Modification du culte' : 'Nouveau culte' }}
+      </h2>
+      <p>{{ id ? 'Modifiez les informations du culte' : 'Veuillez remplir les informations pour créer un nouveau culte' }}</p>
+    </div>
+
+    <form [formGroup]="culteForm" *ngIf="!loading">
+      <app-loader-component [loading]="culteStore.loading()"></app-loader-component>
+
+      <!-- SECTION 1 -->
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" (click)="toggle(1)">
+          <span class="section-title">
+            <span class="section-number">01</span>
+            <i class="pi pi-calendar"></i>
+            Informations générales
+          </span>
+          <i class="pi pi-chevron-down" [class.rotate]="open1"></i>
+        </button>
+
+        <div class="accordion-body" *ngIf="open1">
+          <div class="grid">
+            <div class="field">
+              <label><i class="pi pi-bookmark"></i> Nom du culte</label>
+              <input type="text" formControlName="nom" placeholder="Nom du culte">
+              <small class="error" *ngIf="isInvalid('nom')">Le nom du culte est obligatoire</small>
+            </div>
+            <div class="field">
+              <label><i class="pi pi-tag"></i> Sous-titre</label>
+              <input type="text" formControlName="sousTitre" placeholder="Sous-titre">
+            </div>
+            <div class="field">
+              <label><i class="pi pi-calendar"></i> Date début</label>
+              <input type="datetime-local" formControlName="dateDebut">
+              <small class="error" *ngIf="isInvalid('dateDebut')">La date de début est obligatoire</small>
+            </div>
+            <div class="field">
+              <label><i class="pi pi-clock"></i> Date fin</label>
+              <input type="datetime-local" formControlName="dateFin">
+              <small class="error" *ngIf="isInvalid('dateFin')">La date de fin est obligatoire</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" (click)="toggle(2)">
+          <span class="section-title">
+            <span class="section-number">02</span>
+            <i class="pi pi-book"></i>
+            Thème du culte
+          </span>
+          <i class="pi pi-chevron-down" [class.rotate]="open2"></i>
+        </button>
+
+        <div class="accordion-body" *ngIf="open2">
+          <div class="grid">
+            <div class="field">
+              <label><i class="pi pi-star"></i> Thème</label>
+              <input type="text" formControlName="theme" placeholder="Thème">
+              <small class="error" *ngIf="isInvalid('theme')">Le thème est obligatoire</small>
+            </div>
+            <div class="field">
+              <label><i class="pi pi-sitemap"></i> Sous-thème</label>
+              <input type="text" formControlName="sousTheme" placeholder="Sous-thème">
+            </div>
+            <div class="field full-width">
+              <label><i class="pi pi-file-edit"></i> Description</label>
+              <textarea rows="5" formControlName="description" placeholder="Description du culte"></textarea>
+              <small class="error" *ngIf="isInvalid('description')">La description est obligatoire</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+<!-- SECTION 3 -->
+      <div class="accordion-item">
+        <button type="button" class="accordion-header" (click)="toggle(3)">
+          <span class="section-title">
+            <span class="section-number">03</span>
+            <i class="pi pi-users"></i>
+            Participants & Intervenants
+          </span>
+          <i class="pi pi-chevron-down" [class.rotate]="open3"></i>
+        </button>
+
+        <div class="accordion-body" *ngIf="open3">
+          <!-- BLOC ORATEUR PRINCIPAL (Champs fixes + Photo) -->
+          <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 600; color: #111827; display: flex; align-items: center; gap: 8px;">
+            <span>👑</span> Orateur Principal du Culte
+          </h3>
+
+          <div class="grid" style="margin-bottom: 25px; align-items: flex-end;">
+            <!-- Nom de l'orateur -->
+            <div class="field">
+              <label><i class="pi pi-user"></i> Nom de l'orateur *</label>
+              <input type="text" formControlName="orateur" placeholder="Nom de l'orateur">
+              <small class="error" *ngIf="isInvalid('orateur')">L’orateur est obligatoire</small>
+            </div>
+
+            <!-- Photo / Affiche de l'orateur -->
+            <div class="field">
+              <label><i class="pi pi-image"></i> Photo / Affiche Orateur</label>
+              <input type="file" accept="image/*" (change)="onOrateurImageSelected($event)" style="width: 100%; font-size: 12px;">
+
+              <!-- Témoin si une image existe déjà (en modification) -->
+              <small *ngIf="culte?.orateurImage" style="color: #6366f1; display: block; margin-top: 2px; font-weight: 500;">
+                ℹ️ Image actuelle en ligne
+              </small>
+              <!-- Témoin du nouveau fichier choisi localement -->
+              <small *ngIf="file1" style="color: #10b981; display: block; margin-top: 2px; font-weight: 500;">
+                ✓ Nouvelle image de l'orateur prête
+              </small>
+            </div>
+
+            <!-- Modérateur -->
+            <div class="field">
+              <label><i class="pi pi-user-plus"></i> Modérateur du culte</label>
+              <input type="text" formControlName="moderateur" placeholder="Nom du modérateur">
+            </div>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+
+          <!-- GESTIONNAIRE DYNAMIQUE DES INTERVENANTS SECONDAIRES -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: #374151;">
+              <i class="pi pi-microphone" style="margin-right: 8px; color: #6366f1;"></i>Autres Intervenants / Invités
+            </h3>
+            <button type="button" class="mat-accent" mat-stroked-button (click)="addIntervenant()" style="border: 1px solid #6366f1; color: #6366f1; padding: 6px 12px; border-radius: 6px; background: transparent; cursor: pointer;">
+              <i class="pi pi-plus" style="margin-right: 5px;"></i> Ajouter un intervenant
+            </button>
+          </div>
+
+          <!-- Boucle sur le FormArray 'intervenants' -->
+          <div formArrayName="intervenants">
+            <div *ngFor="let inter of intervenants.controls; let i=index" [formGroupName]="i"
+              style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; background: #f9fafb; padding: 15px; border-radius: 6px; border-left: 4px solid #6366f1; margin-bottom: 12px;">
+
+              <!-- Champ : Nom de l'intervenant -->
+              <div style="flex: 2; min-width: 200px;">
+                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Nom *</label>
+                <input type="text" formControlName="nom" placeholder="Ex: Pasteur Marc" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" [class.ng-invalid]="inter.get('nom')?.invalid && inter.get('nom')?.touched">
+              </div>
+
+              <!-- Champ : Motif / Ministère -->
+              <div style="flex: 2; min-width: 200px;">
+                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;">Motif / Ministère *</label>
+                <input type="text" formControlName="motif" placeholder="Ex: Prédication, Louange" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" [class.ng-invalid]="inter.get('motif')?.invalid && inter.get('motif')?.touched">
+              </div>
+
+              <!-- Champ : Sélection de l'image -->
+              <div style="flex: 2; min-width: 200px;">
+                <label style="font-size: 12px; font-weight: 600; display: block; margin-bottom: 5px;"><i class="pi pi-image"></i> Photo / Affiche</label>
+                <input type="file" accept="image/*" (change)="onIntervenantImageSelected($event, i)" style="width: 100%; font-size: 12px;">
+
+                <small *ngIf="inter.get('affichage')?.value" style="color: #6366f1; display: block; margin-top: 2px; font-weight: 500;">
+                  ℹ️ Image actuellement en ligne
+                </small>
+                <small *ngIf="intervenantFiles[i]" style="color: #10b981; display: block; margin-top: 2px; font-weight: 500;">
+                  ✓ Nouvelle image prête
+                </small>
+              </div>
+
+              <!-- Bouton pour supprimer cet intervenant -->
+              <button type="button" class="mat-warn" mat-icon-button (click)="removeIntervenant(i)" style="color: #ef4444; background: transparent; border: none; cursor: pointer; padding: 8px;">
+                <i class="pi pi-trash" style="font-size: 1.2rem;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- État vide si aucun intervenant n'est encore ajouté -->
+          <div *ngIf="intervenants.length === 0" style="text-align: center; padding: 20px; color: #9ca3af; background: #f9fafb; border-radius: 6px; border: 1px dashed #e5e7eb;">
+            <p style="margin: 0;">Aucun intervenant secondaire ajouté pour le moment.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <button type="button" class="btn btn-reset" (click)="resetForm()">
+          <i class="pi pi-refresh"></i> Réinitialiser
+        </button>
+     <button type="button" class="btn btn-save" [disabled]="culteStore.loading()" (click)="submit()">
+  <i class="pi" [ngClass]="id ? 'pi-pencil' : 'pi-save'"></i>
+  {{ id ? 'Modifier le culte' : 'Enregistrer le culte' }}
+</button>
+      </div>
+
+    </form>
+  </div>
+</div>

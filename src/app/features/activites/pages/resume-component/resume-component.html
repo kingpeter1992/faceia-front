@@ -1,0 +1,176 @@
+<div class="donation-dialog printable-area">
+
+  <!-- EN-TÊTE INDIGO COMPLEXE (no-print) -->
+  <div class="dialog-header header-badge-style no-print">
+    <div class="header-status">
+      <span class="badge-en-cours">{{ culte()?.sousTitre || 'CULTE' | uppercase }}</span>
+    </div>
+    <div class="header-main-content">
+      <h2>{{ culte()?.nom }}</h2>
+      <span class="sub-title">Thème : <strong>« {{ culte()?.theme }} »</strong></span>
+      <span class="italic-info" *ngIf="culte()?.sousTheme">{{ culte()?.sousTheme }}</span>
+    </div>
+
+    <div class="header-time-slots">
+      <div class="time-badge">
+        <i class="pi pi-calendar"></i>
+        <span>{{ culte()?.dateDebut | date:'EEEE dd MMMM yyyy' }}</span>
+      </div>
+      <div class="time-badge ml-8">
+        <i class="pi pi-clock"></i>
+        <span>{{ culte()?.dateDebut | date:'HH:mm' }} - {{ culte()?.dateFin | date:'HH:mm' }}</span>
+      </div>
+    </div>
+
+    <button class="close-btn" (click)="close()">
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <!-- ZONE DE CONTENU -->
+  <div class="scrollable-content backend-preview-style">
+
+    <!-- EN-TÊTE IMPRESSION PDF -->
+    <div class="report-print-header">
+      <h1>RAPPORT DE SYNTHÈSE DE CULTE</h1>
+      <h3>{{ culte()?.nom }} — {{ culte()?.sousTitre }}</h3>
+      <p class="print-date">Date : {{ culte()?.dateDebut | date:'dd/MM/yyyy' }} | Empreinte PDF : {{ today |
+        date:'dd/MM/yyyy à HH:mm' }}</p>
+    </div>
+
+    <!-- BLOC TECHNIQUE HORAIRE DU PDF -->
+    <div class="summary-section print-only-block mb-20">
+      <h3 class="table-section-title">Horaires & Planification</h3>
+      <div class="info-print-grid">
+        <div><strong>Début :</strong> {{ culte()?.dateDebut | date:'dd/MM/yyyy HH:mm' }}</div>
+        <div><strong>Fin prévue :</strong> {{ culte()?.dateFin | date:'dd/MM/yyyy HH:mm' }}</div>
+      </div>
+    </div>
+
+    <!-- COMPTAGE & ASSISTANCE DÉTAILLÉE -->
+    <h3 class="table-section-title"><i class="pi pi-users text-muted pr-8"></i> Rapport d'assistance</h3>
+    <div class="presence-bar-section">
+      <div class="presence-info">
+        <span>Participation Totale : <strong class="text-indigo">{{ assistance()?.total || 0 }}
+            Personnes</strong></span>
+      </div>
+      <div class="progress-bar-container mb-20">
+        <div class="progress-bar-fill" style="width: 100%;"></div>
+      </div>
+
+      <!-- Grille de répartition démographique -->
+      <div class="demographic-grid">
+        <div class="demo-item">
+          <span class="demo-label">Hommes</span>
+          <strong class="demo-count">{{ assistance()?.hommes || 0 }}</strong>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Femmes</span>
+          <strong class="demo-count">{{ assistance()?.femmes || 0 }}</strong>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Jeunes</span>
+          <strong class="demo-count">{{ assistance()?.jeunes || 0 }}</strong>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Enfants</span>
+          <strong class="demo-count">{{ assistance()?.enfants || 0 }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERVENANTS -->
+    <h3 class="table-section-title"><i class="pi pi-user-plus text-muted pr-8"></i> Intervenants & Leadership</h3>
+    <div class="features-grid staff-grid">
+      <div class="feature-card-item">
+        <div class="card-icon blue-icon"><i class="pi pi-user"></i></div>
+        <div class="card-details">
+          <span class="card-label">Prédicateur (Orateur)</span>
+          <strong class="card-value-small">{{ culte()?.orateur || 'Non spécifié' }}</strong>
+        </div>
+      </div>
+      <div class="feature-card-item">
+        <div class="card-icon purple-icon"><i class="pi pi-microphone"></i></div>
+        <div class="card-details">
+          <span class="card-label">Modérateur</span>
+          <strong class="card-value-small">{{ culte()?.moderateur || 'Non spécifié' }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- BASE TEXTUELLE & ÉCRITURE (DÉTAILS DU CULTE) -->
+    <div class="details-table-section mb-20">
+      <h3 class="table-section-title">Rapport Scripturaire & Description</h3>
+      <div class="culte-details-box">
+        <div class="detail-row" *ngIf="culte()?.description">
+          <span class="detail-label">Références & Thématique :</span>
+          <span class="detail-content text-bold-dark">{{ culte()?.description }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYNTHÈSE FINANCIÈRE DES DONS -->
+    <h3 class="table-section-title"><i class="pi pi-percentage text-muted pr-8"></i> Situation de Caisse</h3>
+    <div class="features-grid mb-20">
+      <div class="feature-card-item">
+        <div class="card-icon blue-icon"><i class="pi pi-database"></i></div>
+        <div class="card-details">
+          <span class="card-label">Mouvements</span>
+          <strong class="card-value">{{ culteDonations().length }}</strong>
+        </div>
+      </div>
+      <div class="feature-card-item">
+        <div class="card-icon green-icon"><i class="pi pi-dollar"></i></div>
+        <div class="card-details">
+          <span class="card-label">Total Recettes (USD)</span>
+          <strong class="card-value text-green">{{ totalUSD | number:'1.2-2' }} $</strong>
+        </div>
+      </div>
+      <div class="feature-card-item">
+        <div class="card-icon amber-icon"><i class="pi pi-money-bill"></i></div>
+        <div class="card-details">
+          <span class="card-label">Total Recettes (FC)</span>
+          <strong class="card-value text-amber">{{ totalCDF | number:'1.0-0' }} FC</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOURNAL DE CAISSE DÉTAILLÉ -->
+    <div class="details-table-section" *ngIf="culteDonations().length > 0">
+      <h3 class="table-section-title">Journal de caisse des offrandes</h3>
+      <div class="table-wrapper">
+        <div class="table-header spec-resume">
+          <div>Donateur / Intitulé</div>
+          <div>Type de don</div>
+          <div>Mode</div>
+          <div class="text-right">Montant</div>
+        </div>
+        <div class="table-body">
+          <div class="table-row spec-resume" *ngFor="let item of culteDonations()">
+            <div class="font-medium">{{ item.donateur }}</div>
+            <!-- Remplacer la ligne existante par celle-ci : -->
+            <div>
+              <span class="type-badge-clean">
+                {{ ((item.typeDon || '').split('_').join(' ')) | titlecase }}
+              </span>
+            </div>
+            <div class="text-right font-bold">
+              {{ item.montant | number:'1.2-2' }} {{ item.devise }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-actions-strip no-print">
+    <button class="action-outline-btn" (click)="close()">
+      <i class="pi pi-times"></i> Fermer
+    </button>
+    <button class="action-primary-btn" (click)="imprimerPdf()">
+      <i class="pi pi-print"></i> Imprimer le Résumé
+    </button>
+  </div>
+</div>

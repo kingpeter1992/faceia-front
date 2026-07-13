@@ -2,3 +2,75 @@
 .container {
   padding: 20px;
 }
+
+
+.offrande-dialog {
+  /* Assure que la boîte englobante prend sa taille correctement */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Force Angular Material à centrer le conteneur mdc */
+.cdk-overlay-pane.offrande-dialog {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 95vw !important;
+}
+
+.offrande-dialog .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.offrande-dialog .mdc-dialog__surface {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 24px !important;
+}
+/* Cible le conteneur du dialogue injecté par Angular Material */
+.mat-mdc-dialog-container .premium-dialog-container {
+  padding: 0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+/* Supprime les contraintes par défaut et force l'alignement flexbox au centre de l'écran */
+.cdk-overlay-capsule, .cdk-overlay-pane {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Supprime les contraintes et garantit l'alignement flex au centre de l'écran */
+.cdk-overlay-pane {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Style appliqué à la boîte premium */
+.premium-dialog-container {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: #f8fafc !important;
+  border-radius: 20px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden !important;
+}
+/* Dans votre styles.css global si ce n'est pas déjà fait pour l'offrande */
+.offrande-dialog .mat-mdc-dialog-container {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}

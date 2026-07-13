@@ -1,14 +1,23 @@
 export const environment = {
-
   /*
-production: false,
- BASIC_URL: "http://127.0.0.1:8080/api/",
+  production: false,
+  BASIC_URL: "http://127.0.0.1:8080/api/",
+  FILE_URL: 'http://127.0.0.1:8080',
+  BASIC_URL_AUTH_LOGIN: "http://127.0.0.1:8080/api/auth/login",
+  BASIC_URL_REGISTER: "http://127.0.0.1:8080/api/auth/register",
+  BASIC_URL_FORGOT: "http://127.0.0.1:8080/api/auth/forgot-password",
+  BASIC_URL_RENITIALISATION: "http://127.0.0.1:8080/api/auth/reset-password",
+  BASIC_URL_ADMIN: "http://127.0.0.1:8080/api/admin"
 */
 
-
-  production: true,
-
-  BASIC_URL: "https://faceia-back.onrender.com/api/",
+   production: true,
+   BASIC_URL: "https://back-u-learning-2026.onrender.com/api/",
+   BASIC_URL_AUTH_LOGIN: "https://back-u-learning-2026.onrender.com/api/auth/login",
+   BASIC_URL_REGISTER: "https://back-u-learning-2026.onrender.com/api/auth/register",
+   BASIC_URL_FORGOT: "https://back-u-learning-2026.onrender.com/api/auth/forgot-password",
+   BASIC_URL_RENITIALISATION: "https://back-u-learning-2026.onrender.com/api/auth/reset-password",
+   BASIC_URL_ADMIN: "https://back-u-learning-2026.onrender.com/api/admin",
+   FILE_URL: 'https://back-u-learning-2026.onrender.com'
 
 
 };

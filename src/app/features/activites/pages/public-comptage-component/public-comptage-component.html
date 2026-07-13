@@ -1,0 +1,76 @@
+<div class="public-comptage-wrapper">
+
+  <div class="mobile-container p-4" *ngIf="qrValid(); else errorTpl">
+
+    <!-- En-tête de session mobile -->
+    <div class="card shadow-lg border-0 rounded-2xl p-4 text-center text-white bg-gradient-primary">
+      <h4 class="font-bold mb-1">Collecte Protocole</h4>
+      <p class="text-xs opacity-75">Session d'enregistrement mobile activée</p>
+    </div>
+
+    <h5 class="my-4 font-semibold text-gray-700">Comptage des présences</h5>
+
+    <!-- Formulaire Réactif lié aux contrôles et boutons d'ajustement tactiles -->
+    <form [formGroup]="comptageForm" (ngSubmit)="sendMetrics()" class="space-y-4">
+
+      <!-- Hommes -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-xs">
+        <span class="font-medium text-gray-600">👨‍💼 Papas (Hommes)</span>
+        <div class="flex items-center space-x-3">
+          <button type="button" class="btn btn-sm btn-light rounded-circle font-bold" (click)="adjust('hommes', -1)">-</button>
+          <span class="font-bold text-lg w-8 text-center">{{ comptageForm.get('hommes')?.value }}</span>
+          <button type="button" class="btn btn-sm btn-primary rounded-circle font-bold" (click)="adjust('hommes', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Femmes -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-xs">
+        <span class="font-medium text-gray-600">👩‍🍼 Mamans (Femmes)</span>
+        <div class="flex items-center space-x-3">
+          <button type="button" class="btn btn-sm btn-light rounded-circle font-bold" (click)="adjust('femmes', -1)">-</button>
+          <span class="font-bold text-lg w-8 text-center">{{ comptageForm.get('femmes')?.value }}</span>
+          <button type="button" class="btn btn-sm btn-primary rounded-circle font-bold" (click)="adjust('femmes', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Jeunes -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-xs">
+        <span class="font-medium text-gray-600">🙋‍♂️ Jeunes</span>
+        <div class="flex items-center space-x-3">
+          <button type="button" class="btn btn-sm btn-light rounded-circle font-bold" (click)="adjust('jeunes', -1)">-</button>
+          <span class="font-bold text-lg w-8 text-center">{{ comptageForm.get('jeunes')?.value }}</span>
+          <button type="button" class="btn btn-sm btn-primary rounded-circle font-bold" (click)="adjust('jeunes', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Enfants -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-xl shadow-xs">
+        <span class="font-medium text-gray-600">👶 Enfants / Bébés</span>
+        <div class="flex items-center space-x-3">
+          <button type="button" class="btn btn-sm btn-light rounded-circle font-bold" (click)="adjust('enfants', -1)">-</button>
+          <span class="font-bold text-lg w-8 text-center">{{ comptageForm.get('enfants')?.value }}</span>
+          <button type="button" class="btn btn-sm btn-primary rounded-circle font-bold" (click)="adjust('enfants', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- Validation -->
+      <button type="submit" class="btn btn-success w-100 rounded-xl py-3 shadow mt-5 font-bold" [disabled]="comptageForm.invalid || loading()">
+        <i class="fas" [ngClass]="loading() ? 'fa-spinner fa-spin' : 'fa-cloud-upload-alt'"></i>
+        {{ loading() ? ' Envoi en cours...' : ' Valider et Envoyer' }}
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Template d'erreur si Jeton Invalide/Expiré -->
+  <ng-template #errorTpl>
+    <div class="text-center p-5 mt-5 state-card">
+      <i class="fas fa-exclamation-triangle text-danger text-5xl mb-3"></i>
+      <h4 class="text-xl font-bold text-gray-800">QR Code Invalide ou Expiré</h4>
+      <p class="text-muted mt-2">
+        {{ errorMessage() ? errorMessage() : "Ce code d'accès n'est plus autorisé ou a déjà été consommé par l'administration." }}
+      </p>
+    </div>
+  </ng-template>
+
+</div>

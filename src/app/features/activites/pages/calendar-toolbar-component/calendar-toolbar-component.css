@@ -1,0 +1,37 @@
+.calendar-toolbar-premium {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.left-actions, .right-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.center-title h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+/* Boutons personnalisés PrimeNG suivant le style corporate */
+::ng-deep .premium-create-btn {
+  background: #4f46e5 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+}
+
+::ng-deep .premium-today-btn {
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+}

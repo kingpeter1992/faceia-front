@@ -1,0 +1,218 @@
+<div class="finance-page" [ngClass]="{'dark-mode': isDarkMode}">
+
+  <!-- HEADER PREMIUM -->
+  <div class="page-header animate-fade-in">
+    <div class="title-zone">
+      <h2><span class="icon-pulse">📊</span> Smart Church Attendance</h2>
+      <p>Registre d'assistance et d'analytics des présences aux réunions en temps réel</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-theme" (click)="toggleDarkMode()" title="Changer de thème">
+        {{ isDarkMode ? '☀️ Mode Clair' : '🌙 Mode Sombre' }}
+      </button>
+
+      <div class="action-buttons-container" style="display: flex; gap: 12px;">
+        <button class="btn-premium pdf" (click)="exportPdf()">
+          <i class="pi pi-file-pdf"></i> Exporter en PDF Premium
+        </button>
+
+        <button class="btn-premium excel" (click)="exportExcel()">
+          <i class="pi pi-file-excel"></i> Exporter en Excel Structuré
+        </button>
+      </div>
+    </div>
+  </div>
+<!-- TOGGLE GRAPH BUTTON -->
+<div class="flex-actions-row" style="margin-bottom: 20px;">
+  <button class="btn-premium excel" (click)="showChart = !showChart" style="background: #e0e7ff; color: #4f46e5; border-radius: 12px; font-weight: 600;">
+    {{ showChart ? 'Masquer le graphique ✕' : 'Afficher l\'analyse graphique 📊' }}
+  </button>
+</div>
+
+<!-- GRAPH CONTAINER PREMIUM -->
+<div class="search-engine-card animate-fade-in" *ngIf="showChart" style="margin-bottom: 24px; padding: 24px;">
+  <h3 style="margin-top: 0; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--text-main);">
+    <span>📈</span> Graphique d'Évolution & Courbes de Fréquentation
+  </h3>
+
+  <div *ngIf="filteredComptages.length > 0; else noDataChart" style="background: var(--bg-card); min-height: 350px;">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [stroke]="chartOptions.stroke"
+      [colors]="chartOptions.colors"
+      [dataLabels]="chartOptions.dataLabels"
+      [grid]="chartOptions.grid"
+      [yaxis]="chartOptions.yaxis">
+    </apx-chart>
+  </div>
+
+  <ng-template #noDataChart>
+    <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+      <p>⚠️ Aucune donnée disponible pour tracer l'analyse graphique.</p>
+    </div>
+  </ng-template>
+</div>
+  <!-- KPI METRICS GRID -->
+<!-- KPI METRICS GRID -->
+  <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr) !important;">
+    <div class="kpi-card blue animate-scale-up">
+      <div class="kpi-header">
+        <span>Total Présences</span>
+        <span class="trend positive">Global</span>
+      </div>
+      <b class="kpi-value">{{ totalPresences | number }} <small>pers.</small></b>
+      <div class="kpi-progress">
+        <div class="bar" style="width: 100%"></div>
+      </div>
+    </div>
+
+    <!-- NOUVEAU KPI : MOYENNE DE PARTICIPATION -->
+    <div class="kpi-card purple animate-scale-up">
+      <div class="kpi-header">
+        <span>Participation Moyenne</span>
+        <span class="badge-count bg-indigo" style="background: #6366f1; color: white;">Moyenne</span>
+      </div>
+      <b class="kpi-value">
+        {{ (filteredComptages.length > 0 ? (totalPresences / filteredComptages.length) : 0) | number:'1.0-1' }}
+        <small>pers./culte</small>
+      </b>
+    </div>
+
+    <div class="kpi-card green animate-scale-up">
+      <div class="kpi-header">
+        <span>Répartition Adultes</span>
+        <span class="badge-count">H / F</span>
+      </div>
+      <b class="kpi-value">{{ totalHommes | number }} <small>H</small> / {{ totalFemmes | number }} <small>F</small></b>
+    </div>
+
+    <div class="kpi-card orange animate-scale-up">
+      <div class="kpi-header">
+        <span>Jeunes & Enfants</span>
+        <span class="badge-count bg-purple">J / E</span>
+      </div>
+      <b class="kpi-value">{{ totalJeunes | number }} <small>J</small> / {{ totalEnfants | number }} <small>E</small></b>
+    </div>
+  </div>
+
+  <!-- ADVANCED SEARCH ENGINE -->
+  <div class="search-engine-card animate-fade-in" [formGroup]="searchForm">
+    <div class="search-grid" style="grid-template-columns: 2fr 1fr 1fr;">
+      <div class="input-wrapper main-search">
+        <label>Rechercher une réunion</label>
+        <div class="input-icon-group">
+          <span class="input-icon">🔍</span>
+          <input type="text" formControlName="searchTerm" placeholder="Ex: Culte de célébration...">
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label>Date Début</label>
+        <input type="date" formControlName="dateDebut">
+      </div>
+
+      <div class="input-wrapper">
+        <label>Date Fin</label>
+        <input type="date" formControlName="dateFin">
+      </div>
+    </div>
+  </div>
+
+  <!-- DATATABLE PREMIUM -->
+  <div class="table-container animate-fade-in">
+    <div class="premium-table">
+      <!-- Table Header -->
+      <div class="table-header-row">
+        <div class="col-xs">#</div>
+        <div class="col-lg">Réunion / Culte</div>
+        <div class="col-md">Date</div>
+        <div class="col-xs text-center">👨 H</div>
+        <div class="col-xs text-center">👩 F</div>
+        <div class="col-xs text-center">🧑 J</div>
+        <div class="col-xs text-center">👶 E</div>
+        <div class="col-md text-center highlighted-header">Total Général</div>
+        <th style="width: 15%; text-align: center;">ACTIONS</th>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredComptages.length === 0">
+        <p>🚫 Aucun enregistrement d'assistance ne correspond à vos critères.</p>
+      </div>
+
+      <!-- Table Rows Loop -->
+      <div class="table-data-row animate-row" *ngFor="let c of paginatedComptages; let i = index">
+        <div class="col-xs index-cell">{{ (page - 1) * pageSize + i + 1 }}</div>
+
+     <div class="col-lg user-cell">
+  <div class="avatar-premium">
+    <!-- Sécurisation au cas où culteNom est temporairement indéfini -->
+    <span>{{ c.culteNom ? (c.culteNom.substring(0,2) | uppercase) : 'RC' }}</span>
+  </div>
+  <div class="user-info">
+    <span class="name">{{ c.culteNom || 'Réunion #' + c.culteId }}</span>
+  </div>
+</div>
+
+        <div class="col-md date-cell">{{ c.dateCulte | date:'dd MMM yyyy' }}</div>
+
+        <div class="col-xs text-center font-semibold">{{ c.hommes }}</div>
+        <div class="col-xs text-center font-semibold">{{ c.femmes }}</div>
+        <div class="col-xs text-center font-semibold">{{ c.jeunes }}</div>
+        <div class="col-xs text-center font-semibold">{{ c.enfants }}</div>
+        <div class="col-xs text-center text-amber-600 font-semibold">{{ c.visiteurs }}</div>
+
+        <div class="col-md text-center total-cell">
+          <span class="amount-val">{{ c.total }}</span>
+          <span class="currency-badge">pers.</span>
+        </div>
+
+        <!-- 🌟 Boutons d'actions Admin -->
+
+        <div style="display: flex; gap: 8px; justify-content: center;">
+          <!-- Bouton Imprimer Reçu -->
+          <button pButton icon="pi pi-print"
+                  class="p-button-rounded p-button-text p-button-sm"
+                  style="color: #6366f1;"
+                  v-tooltip="'Imprimer le reçu'"
+                  (click)="printReceipt(c)">
+          </button>
+
+          <!-- Bouton Modifier -->
+          <button pButton icon="pi pi-pencil"
+                  class="p-button-rounded p-button-text p-button-sm"
+                  style="color: #f59e0b;"
+                  (click)="editComptage(c)">
+          </button>
+
+          <!-- Bouton Supprimer -->
+          <button pButton icon="pi pi-trash"
+                  class="p-button-rounded p-button-text p-button-sm p-button-danger"
+                  (click)="deleteComptage(c)">
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SMART PAGINATION -->
+    <div class="pagination-panel">
+      <div class="pagination-info">
+        Affichage de <b>{{ paginatedComptages.length }}</b> sur <b>{{ filteredComptages.length }}</b> entrées
+      </div>
+
+      <div class="pagination-controls">
+        <button class="p-btn" (click)="prevPage()" [disabled]="page === 1">
+          ◀ Précédent
+        </button>
+        <span class="page-indicator">Page <b>{{ page }}</b> / {{ totalPages }}</span>
+        <button class="p-btn" (click)="nextPage()" [disabled]="page === totalPages">
+          Suivant ▶
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

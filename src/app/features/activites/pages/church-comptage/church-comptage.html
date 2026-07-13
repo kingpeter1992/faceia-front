@@ -1,0 +1,177 @@
+<div class="comptage-container">
+
+  <!-- VOLET GAUCHE : FORMULAIRE DE COMPTAGE INTERNE -->
+  <div class="comptage-box">
+    <div class="comptage-header">
+      <span class="status-badge">COMPTAGE INTERNE / SÉCURISÉ</span>
+      <h2>Session Admin Comptage</h2>
+      <p class="subtitle">Saisie officielle des présences au registre</p>
+    </div>
+
+    <form [formGroup]="comptageForm" (ngSubmit)="save()" class="comptage-form-body">
+      <div class="grid-inputs">
+        <!-- HOMMES -->
+        <div class="input-card">
+          <label><span class="icon">👨‍💼</span> Papas (Hommes)</label>
+          <p-inputNumber formControlName="hommes" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+            [min]="0"></p-inputNumber>
+        </div>
+        <!-- FEMMES -->
+        <div class="input-card">
+          <label><span class="icon">👩‍🍼</span> Mamans (Femmes)</label>
+          <p-inputNumber formControlName="femmes" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+            [min]="0"></p-inputNumber>
+        </div>
+        <!-- JEUNES -->
+        <div class="input-card">
+          <label><span class="icon">🙋‍♂️</span> Jeunes</label>
+          <p-inputNumber formControlName="jeunes" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+            [min]="0"></p-inputNumber>
+        </div>
+        <!-- ENFANTS -->
+        <div class="input-card">
+          <label><span class="icon">👶</span> Enfants / Bébés</label>
+          <p-inputNumber formControlName="enfants" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+            [min]="0"></p-inputNumber>
+        </div>
+        <!-- VISITEURS (Ajouté & Harmonisé) -->
+        <div class="input-card visitors-card">
+          <label><span class="icon">⭐</span> Nouveaux / Visiteurs</label>
+          <p-inputNumber formControlName="visiteurs" [showButtons]="true" buttonLayout="horizontal"
+            spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
+            [min]="0"></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="total-summary-card">
+        <div class="total-label">
+          <span>TOTAL GÉNÉRAL</span>
+          <p>Inclus membres réguliers et visiteurs</p>
+        </div>
+        <strong class="total-count">{{ totalPresences() }} <small>pers.</small></strong>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-secondary" (click)="back()">Retour</button>
+        <button type="submit" class="btn-primary" [disabled]="comptageForm.invalid || loading()">
+          <span>{{ loading() ? 'Enregistrement...' : 'Enregistrer' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- VOLET DROIT : INTERFACE GENERATION QR CODE UNIQUE -->
+<!-- VOLET DROIT : INTERFACE GENERATION QR CODE UNIQUE -->
+<div class="qr-sharing-box">
+
+  <div class="qr-card-header">
+    <h3>Accès Équipe Protocole</h3>
+    <p>
+      Générez un jeton d'accès sécurisé permettant au protocole
+      d'effectuer le comptage depuis un smartphone.
+    </p>
+  </div>
+
+  <div class="qr-display-zone">
+
+    <div class="qr-wrapper" *ngIf="qrToken(); else generatePlaceholder">
+
+      <!-- QR provenant directement du Backend -->
+      <img
+        class="qr-image"
+        [src]="qrImage()"
+        alt="QR Code"
+      />
+
+      <!-- Lien -->
+      <div class="qr-link-box">
+
+        <label>Lien d'accès</label>
+
+        <input
+          class="qr-link-input"
+          type="text"
+          readonly
+          [value]="qrPublicUrl()"
+        />
+
+        <button
+          type="button"
+          class="btn-copy-link"
+          (click)="copyLink()">
+
+          <i class="pi pi-copy"></i>
+
+          Copier
+
+        </button>
+
+      </div>
+
+      <!-- Expiration -->
+      <p class="qr-expiration">
+        <i class="pi pi-clock"></i>
+
+        Expire le :
+
+        {{ qrExpiration() | date:'dd/MM/yyyy HH:mm' }}
+      </p>
+
+      <!-- Télécharger -->
+      <button
+        type="button"
+        class="btn-download-qr"
+        (click)="downloadQRCode()">
+
+        <i class="pi pi-download"></i>
+
+        Télécharger le QR
+
+      </button>
+
+    </div>
+
+    <ng-template #generatePlaceholder>
+
+      <div class="qr-placeholder">
+
+        <i class="pi pi-qrcode"></i>
+
+        <span>Aucun QR Code généré</span>
+
+      </div>
+
+    </ng-template>
+
+  </div>
+
+  <div class="qr-warning" *ngIf="qrToken()">
+
+    <i class="pi pi-exclamation-triangle"></i>
+
+    Ce QR Code est valable une seule fois et sera automatiquement
+    désactivé après la soumission du comptage ou à son expiration.
+
+  </div>
+
+  <button
+    type="button"
+    class="btn-generate-qr"
+    (click)="genererNouveauTokenQR()"
+    [disabled]="loading()">
+
+    <i class="pi pi-refresh"></i>
+
+    {{ qrToken()
+        ? 'Régénérer un QR'
+        : 'Créer un QR Code' }}
+
+  </button>
+
+</div>
+
+</div>

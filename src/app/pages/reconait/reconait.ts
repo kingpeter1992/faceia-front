@@ -5,6 +5,7 @@ import { BlobResponse, Personne } from '../model/personne';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -45,7 +46,8 @@ showCamera = true;
     private presenceService: PresenceService,
     private faceService: FaceService,
       private cdr: ChangeDetectorRef,
-        private snackBar: MatSnackBar
+      private router : Router,
+      private snackBar: MatSnackBar
 
 
   ) { }
@@ -326,9 +328,9 @@ loop() {
     this.showModal = false;
     this.detectedPerson = null;
     this.message = '';
-      this.showCamera = true; // réaffiche caméra
-
+    this.showCamera = true; // réaffiche caméra
     await this.startCamera();
+
   }
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FaceService } from '../../services/face.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -20,8 +20,9 @@ import { PresenceService } from '../../services/PresenceService';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule,   // ✅ OBLIGATOIRE
-  ],
+    MatTableModule,
+    RouterLink
+],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })

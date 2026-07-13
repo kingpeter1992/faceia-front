@@ -1,0 +1,155 @@
+<div class="donation-dialog" [formGroup]="form">
+  <div class="loader-overlay" *ngIf="donationStore.loading()">
+    <div class="loader-box">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+      <span>Enregistrement des dons...</span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="dialog-header">
+    <div class="title">
+      <div class="icon">
+        <i class="pi pi-wallet"></i>
+      </div>
+      <div class="text">
+        <h2>Nouveau don</h2>
+        <span>Enregistrez les dons et offrandes <b *ngIf="culte?.nom">pour {{ culte.nom }}</b></span>
+      </div>
+    </div>
+    <button class="close-btn" (click)="close()">
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <!-- SECTION ACCORDÉON / DÉROULABLE DES OFFRANDES EXISTANTES -->
+  <!-- 🎯 Ajout des parenthèses () pour lire la valeur du signal calculé -->
+  <div class="existing-donations-accordion" *ngIf="existingDonations().length > 0">
+    <div class="accordion-header" (click)="toggleExistingSection()">
+      <div class="accordion-title">
+        <span class="warning-dot"></span>
+        <!-- 🎯 Ajout des parenthèses () ici également -->
+        <span>Ce culte contient déjà <b>{{ existingDonations().length }}</b> enregistrement(s) d'offrande</span>
+      </div>
+      <i class="pi" [ngClass]="showExisting ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+    </div>
+
+    <div class="accordion-content" *ngIf="showExisting">
+      <div class="existing-table">
+        <div class="existing-header-row">
+          <div>Donateur</div>
+          <div>Montant</div>
+          <div>Date</div>
+          <div>Type</div>
+        </div>
+        <div class="existing-body">
+          <!-- 🎯 Ajout des parenthèses () sur l'itération du signal -->
+          <div class="existing-row-data" *ngFor="let item of existingDonations()">
+            <div>{{ item.donateur }}</div>
+            <div class="montant-badge">{{ item.montant }} {{ item.devise }}</div>
+            <div>{{ item.date | date:'dd/MM/yyyy' }}</div>
+            <div><span class="type-badge">{{ item.typeDon }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE DE SAISIE DES NOUVELLES OFFRANDES -->
+  <div class="table-wrapper">
+    <div class="table-header">
+      <div>#</div>
+      <div>Donateur</div>
+      <div>Montant</div>
+      <div>Devise</div>
+      <div>Date</div>
+      <div>Opération</div>
+      <div>Type de don</div>
+      <div>Actions</div>
+    </div>
+
+    <!-- FORM ARRAY -->
+    <div formArrayName="rows">
+      <div class="table-row" *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+        <div class="cell index">{{ i + 1 }}</div>
+
+        <div class="cell">
+          <input type="text" formControlName="donateur" placeholder="Nom du donateur" />
+        </div>
+
+        <div class="cell">
+          <input type="number" formControlName="montant" placeholder="0,00" />
+        </div>
+
+        <div class="cell">
+          <select formControlName="devise">
+            <option value="USD">USD $</option>
+            <option value="CDF">FC</option>
+          </select>
+        </div>
+
+        <div class="cell">
+          <input type="date" formControlName="date" />
+        </div>
+
+        <div class="cell">
+          <select formControlName="operation">
+            <option>Espèces</option>
+            <option>Mobile Money</option>
+          </select>
+        </div>
+
+        <div class="cell">
+          <select formControlName="typeDon">
+            <option value="don">Don</option>
+            <option value="dime">Dîme</option>
+            <option value="offrande">Offrande</option>
+            <option value="construction">Construction</option>
+            <option value="action_grace">Action de grâce</option>
+            <option value="offrande_speciale">Offrande spéciale</option>
+          </select>
+        </div>
+
+        <div class="cell actions">
+          <button class="delete" (click)="removeRow(i)">
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ROW -->
+  <div class="add-row">
+    <button (click)="addRow()">
+      <i class="pi pi-plus"></i>
+      Ajouter une ligne
+    </button>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="card">
+      <span>Nouveaux dons à ajouter</span>
+      <strong>{{ rows.length }}</strong>
+    </div>
+    <div class="card total">
+      <span>Total USD Saisie</span>
+      <strong>{{ totalUSD }} $</strong>
+    </div>
+    <div class="card blue">
+      <span>Total FC Saisie</span>
+      <strong>{{ totalCDF }} FC</strong>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <button class="btn secondary" (click)="close()">Fermer</button>
+    <button class="btn primary" (click)="submit()" [disabled]="donationStore.loading() || rows.length === 0">
+      <i *ngIf="donationStore.loading()" class="pi pi-spin pi-spinner"></i>
+      <span *ngIf="!donationStore.loading()">Enregistrer</span>
+      <span *ngIf="donationStore.loading()">Enregistrement...</span>
+    </button>
+  </div>
+</div>

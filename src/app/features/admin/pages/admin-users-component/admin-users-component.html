@@ -1,0 +1,122 @@
+<div class="admin-container">
+
+  <!-- 🔍 FILTER BAR -->
+  <div class="filter-bar">
+
+    <input
+      type="text"
+      placeholder="Rechercher (nom, prénom, email)"
+      [(ngModel)]="search"
+    />
+
+    <select [(ngModel)]="filterRole">
+      <option value="ALL">Tous les rôles</option>
+
+      @for (r of allRoles; track r) {
+        <option [value]="r">{{ r }}</option>
+      }
+
+    </select>
+
+    <button (click)="refresh()">
+      🔄 Refresh
+    </button>
+
+  </div>
+
+  <!-- 📊 TABLE -->
+  <table class="users-table">
+
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Rôles</th>
+        <th>Gestion rôles</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      @for (user of usersFiltres(); track user.id) {
+
+        <tr>
+
+          <!-- NOM -->
+          <td>
+            {{ user.nom }} {{ user.prenom }}
+          </td>
+
+          <!-- EMAIL -->
+          <td>
+            {{ user.email }}
+          </td>
+
+          <!-- ROLES DISPLAY (CHIPS) -->
+          <td>
+            <div class="role-chips">
+
+              @for (r of user.roles; track r) {
+                <span class="chip" [ngClass]="r.toLowerCase()">
+                  {{ r }}
+                </span>
+              }
+
+            </div>
+          </td>
+
+          <!-- ROLE MANAGEMENT -->
+          <td class="actions">
+
+            <div class="role-options">
+
+              <label class="role-item">
+                <input
+                  type="checkbox"
+                  [checked]="hasRole(user, 'ADMIN')"
+                  (change)="toggleRole(user, 'ADMIN', $event)" />
+                Admin
+              </label>
+
+              <label class="role-item">
+                <input
+                  type="checkbox"
+                  [checked]="hasRole(user, 'RESPONSABLE_01')"
+                  (change)="toggleRole(user, 'RESPONSABLE_01', $event)" />
+                Resp 1
+              </label>
+
+              <label class="role-item">
+                <input
+                  type="checkbox"
+                  [checked]="hasRole(user, 'RESPONSABLE_02')"
+                  (change)="toggleRole(user, 'RESPONSABLE_02', $event)" />
+                Resp 2
+              </label>
+
+              <label class="role-item">
+                <input
+                  type="checkbox"
+                  [checked]="hasRole(user, 'EN_ATTENTE')"
+                  (change)="toggleRole(user, 'EN_ATTENTE', $event)" />
+                En attente
+              </label>
+
+            </div>
+
+            <!-- LOADING -->
+            <span class="save-indicator" *ngIf="savingId === user.id">
+              ⏳ sauvegarde...
+            </span>
+
+          </td>
+
+        </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>

@@ -1,0 +1,253 @@
+<!-- LOADER GLOBAL PREMIUM -->
+<div class="loading-overlay" *ngIf="store.loading()">
+  <div class="loader-card">
+    <mat-spinner diameter="50"></mat-spinner>
+    <h3>Chargement des membres...</h3>
+    <p>Veuillez patienter pendant la récupération des données</p>
+  </div>
+</div>
+
+<!-- ✅ ENCADREMENT GLOBAL DE LA PAGE DANS UNE CARD PREMIUM -->
+<mat-card class="premium-dashboard-card" style="margin: 20px; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+
+  <div class="table-container">
+
+    <!-- ZONE DES COMPTEURS KPI PREMIUM -->
+    <div class="summary-cards-grid" *ngIf="!store.loading()">
+      <div class="kpi-card total-members">
+        <div class="kpi-badge progress-blue">+8%</div>
+        <div class="kpi-data">
+          <span>Total Membres</span>
+          <strong>{{ filteredUsers.length }} <small>Membres</small></strong>
+        </div>
+        <div class="kpi-progress-bar bg-blue"></div>
+      </div>
+
+      <div class="kpi-card active-members">
+        <div class="kpi-badge progress-green">+12%</div>
+        <div class="kpi-data">
+          <span>Membres Actifs (Église)</span>
+          <strong>{{ totalActifs }} <small>Actifs</small></strong>
+        </div>
+        <div class="kpi-progress-bar bg-green"></div>
+      </div>
+
+      <div class="kpi-card accueil-members">
+        <div class="kpi-badge counter-orange">{{ totalAccueil }}</div>
+        <div class="kpi-data">
+          <span>Membres Accueillis</span>
+          <strong>{{ totalAccueil }} <small>Reçus</small></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONE DE STATISTIQUES & GRAPHIQUES -->
+    <div class="chart-section-wrapper" *ngIf="!store.loading()">
+      <div class="section-title-bar">
+        <h3>📈 Graphiques & Analyse Statistique</h3>
+        <button class="btn-toggle-chart" (click)="toggleChart()">
+          {{ showChart ? 'Masquer l\'analyse graphique ✕' : 'Afficher l\'analyse graphique 📊' }}
+        </button>
+      </div>
+
+      <div class="charts-flex-grid" *ngIf="showChart">
+        <div class="chart-card">
+          <h4>Évolution des inscriptions (Annuel)</h4>
+          <div class="chart-container">
+            <canvas id="membersYearChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h4>Répartition par Statut Église (Actifs vs Inactifs)</h4>
+          <div class="chart-container">
+            <canvas id="statusDistributionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTRES DE RECHERCHE & INTERVALLE DE DATES -->
+    <div class="table-header-actions" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+      <div class="header-left" style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+        <div>
+          <h2 style="margin: 0 0 4px 0;">Gestion des membres</h2>
+        </div>
+
+        <!-- Recherche textuelle -->
+        <mat-form-field appearance="outline" class="search-field-premium" style="width: 250px;">
+          <mat-label>Rechercher un membre...</mat-label>
+          <input matInput [formControl]="searchControl" [matAutocomplete]="auto" />
+          <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user.nom">
+              {{ user.nom }} {{ user.prenom }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- ✅ FILTRE INTERVALLE DE DATE PREMIUM -->
+        <mat-form-field appearance="outline" style="width: 280px;">
+          <mat-label>Période d'inscription</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate [formControl]="startDateControl" placeholder="Date début">
+            <input matEndDate [formControl]="endDateControl" placeholder="Date fin">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+<div class="actions-group">
+  <!-- Bouton PDF lié -->
+  <button mat-button class="btn-premium-pdf" (click)="exportToPDF()">
+    <mat-icon>picture_as_pdf</mat-icon> Exporter en PDF Premium
+  </button>
+
+  <!-- Bouton Excel lié -->
+  <button mat-button class="btn-premium-excel" (click)="exportToExcel()">
+    <mat-icon>table_view</mat-icon> Exporter en Excel Structuré
+  </button>
+
+  <button mat-flat-button class="btn-premium-add" (click)="openDialog()">
+    <mat-icon>add</mat-icon> Nouveau membre
+  </button>
+</div>
+
+    </div>
+
+    <!-- SKELETON LOADING -->
+    <div class="table-skeleton" *ngIf="store.loading()">
+      <div class="skeleton-row" *ngFor="let item of [1,2,3,4,5]">
+        <div class="skeleton avatar"></div>
+        <div class="skeleton text large"></div>
+        <div class="skeleton text"></div>
+      </div>
+    </div>
+
+    <!-- TABLEAU PREMIUM UNIQUE -->
+    <div class="premium-table-wrapper" *ngIf="!store.loading()">
+      <table mat-table [dataSource]="pagedUsers" class="custom-premium-table">
+
+        <!-- # ID -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let u; let i = index" class="fw-bold text-muted">
+            {{ ((page - 1) * pageSize) + i + 1 }}
+          </td>
+        </ng-container>
+
+        <!-- MEMBRE (PROFIL COMPLEXE) -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef> Membre </th>
+          <td mat-cell *matCellDef="let u">
+            <div class="user-profile-cell">
+              <div class="avatar-circle">
+                {{ u.nom?.charAt(0) }}{{ u.prenom?.charAt(0) }}
+              </div>
+              <div class="user-details">
+                <span class="user-fullname">{{ u.nom }} {{ u.prenom }}</span>
+                <span class="user-meta"><mat-icon>mail</mat-icon> {{ u.email }}</span>
+                <span class="user-meta"><mat-icon>call</mat-icon> {{ u.telephone }}</span>
+                <span class="user-meta"><mat-icon>location_on</mat-icon> {{ u.adresse }}</span>
+                <!-- Badge pour voir s'il est lié à un culte -->
+                <span *ngIf="u.culte" class="user-meta text-primary" style="font-weight: 500;">
+                  <mat-icon style="color: #4f46e5;">church</mat-icon> {{ u.culte.nom }}
+                </span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- INVITÉ PAR -->
+        <ng-container matColumnDef="invite">
+          <th mat-header-cell *matHeaderCellDef> Invité par </th>
+          <td mat-cell *matCellDef="let u">
+            <span class="badge-invite-box">{{ u.invite || 'Aucun' }}</span>
+          </td>
+        </ng-container>
+
+        <!-- ACCUEIL -->
+        <ng-container matColumnDef="accueil">
+          <th mat-header-cell *matHeaderCellDef> Qualité Accueil </th>
+          <td mat-cell *matCellDef="let u">
+            <div class="premium-status">
+              <span class="status-indicator-dot"
+                    [class.dot-green]="u.accueil === 'Excellent' || u.accueil === 'Bon' || u.accueil === 'Oui'"
+                    [class.dot-orange]="u.accueil === 'Moyen'"
+                    [class.dot-red]="!u.accueil || u.accueil === 'Non'">
+              </span>
+              <span class="status-label fw-semibold">{{ u.accueil || 'Non spécifié' }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- AVIS -->
+        <ng-container matColumnDef="avis">
+          <th mat-header-cell *matHeaderCellDef> Avis / Remarques </th>
+          <td mat-cell *matCellDef="let u">
+            <span class="badge-avis-tag" [matTooltip]="u.avis" *ngIf="u.avis; else noAvis">
+              <mat-icon style="font-size: 14px; width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;">chat_bubble_outline</mat-icon>
+              {{ u.avis.length > 25 ? (u.avis | slice:0:25) + '...' : u.avis }}
+            </span>
+            <ng-template #noAvis><span class="text-muted italic-text">Aucun</span></ng-template>
+          </td>
+        </ng-container>
+
+        <!-- ACTIONS -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Actions </th>
+          <td mat-cell *matCellDef="let u" class="text-center">
+            <div class="premium-action-row">
+              <button mat-icon-button class="action-circle-btn view" matTooltip="Voir détails" (click)="viewUser(u)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button *ngIf="hasRole(['ADMIN'])" mat-icon-button class="action-circle-btn edit" matTooltip="Modifier" (click)="editUser(u)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button *ngIf="hasRole(['ADMIN'])" mat-icon-button class="action-circle-btn delete" matTooltip="Supprimer" (click)="deleteUser(u.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" class="premium-row-hover"></tr>
+      </table>
+    </div>
+
+    <!-- EMPTY STATE INTERNE -->
+    <div class="empty-state-card" *ngIf="!store.loading() && pagedUsers.length === 0">
+      <mat-icon class="empty-icon">group_off</mat-icon>
+      <h3>Aucun membre trouvé</h3>
+      <p>Aucun enregistrement ne correspond aux critères de recherche ou à la période sélectionnée.</p>
+    </div>
+
+    <!-- PAGINATION PREMIUM -->
+    <div class="premium-pagination-container" *ngIf="!store.loading() && filteredUsers.length > 0">
+      <div class="pagination-text-info">
+        Affichage de <span>{{ ((page - 1) * pageSize) + 1 }}</span> à <span>{{ Math.min(page * pageSize, filteredUsers.length) }}</span> sur <span>{{ filteredUsers.length }}</span> membres inscrits
+      </div>
+
+      <div class="premium-pages-list">
+        <button class="nav-arrow-btn" (click)="prevPage()" [disabled]="page === 1">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <button *ngFor="let p of [].constructor(totalPages); let i = index"
+                class="numeric-page-btn"
+                [class.is-active]="page === i + 1"
+                (click)="goToPage(i + 1)">
+          {{ i + 1 }}
+        </button>
+
+        <button class="nav-arrow-btn" (click)="nextPage()" [disabled]="page === totalPages">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</mat-card>

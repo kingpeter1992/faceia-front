@@ -1,37 +1,114 @@
-<mat-card class="main-card">
+<mat-card class="presence-container">
 
-  <h2>📊 Présences</h2>
+  <!-- HEADER -->
+  <div class="page-header">
 
-  <div *ngFor="let day of groupedPresences" class="day-card">
+    <div>
+      <h1>Présences</h1>
+      <p>Suivi des présences des membres</p>
+    </div>
 
-    <!-- ✅ HEADER JOUR -->
+    <div class="actions">
+
+      <a
+        routerLink="/membres/enregister"
+        class="action-btn">
+
+        <i class="pi pi-user-plus"></i>
+        Enregistrer
+
+      </a>
+
+      <a
+        routerLink="/membres/recognizer"
+        class="action-btn">
+
+        <i class="pi pi-camera"></i>
+        Reconnaissance
+
+      </a>
+
+      <a
+        routerLink="/membres/recognizerpersonal"
+        class="action-btn">
+
+        <i class="pi pi-id-card"></i>
+        Informations
+
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- LISTE DES JOURS -->
+  <div
+    *ngFor="let day of groupedPresences"
+    class="day-card">
+
     <div class="day-header">
 
-      <div>
-        <h3>📅 {{ day.date }}</h3>
-        <span class="badge">{{ day.total }} présences</span>
+      <div class="date-info">
+
+        <div class="calendar-icon">
+          <i class="pi pi-calendar"></i>
+        </div>
+
+        <div>
+
+          <h3>{{ day.date }}</h3>
+
+          <span class="badge">
+            {{ day.total }} Présences
+          </span>
+
+        </div>
+
       </div>
 
-      <button mat-button color="primary" (click)="day.open = !day.open">
-        {{ day.open ? 'Fermer' : 'Voir détails' }}
+      <button
+        class="toggle-btn"
+        (click)="day.open = !day.open">
+
+        <i
+          class="pi"
+          [ngClass]="day.open ? 'pi-chevron-up' : 'pi-chevron-down'">
+        </i>
+
       </button>
 
     </div>
 
-    <!-- ✅ DETAILS -->
-    <div *ngIf="day.open" class="details">
+    <div
+      *ngIf="day.open"
+      class="details">
 
-      <div *ngFor="let p of day.items" class="item">
+      <div
+        *ngFor="let p of day.items"
+        class="presence-item">
 
-        <img [src]="p.imageUrl" class="avatar"/>
+        <img
+          [src]="p.imageUrl"
+          class="avatar">
 
-        <div class="info">
-          <strong>{{p.nom}} {{p.prenom}}</strong>
-          <div class="section">{{p.section}}</div>
+        <div class="member-info">
+
+          <strong>
+            {{ p.nom }} {{ p.prenom }}
+          </strong>
+
+          <span>
+            {{ p.section }}
+          </span>
+
         </div>
 
-        <div class="time">
-          {{p.timestamp | date:'shortTime'}}
+        <div class="presence-time">
+
+          <i class="pi pi-clock"></i>
+
+          {{ p.timestamp | date:'HH:mm' }}
+
         </div>
 
       </div>

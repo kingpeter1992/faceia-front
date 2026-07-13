@@ -1,0 +1,57 @@
+<div class="departments-container">
+
+  <!-- En-tête de la page -->
+  <div class="departments-header">
+    <div class="header-titles">
+      <span class="status-badge">U-Churche Organigramme</span>
+      <h2>Gestion des Départements</h2>
+      <p class="subtitle">Pilotez les ministères, responsables et effectifs de votre communauté.</p>
+    </div>
+    <!-- <button type="button" class="btn-add-dept" (click)="openAddDepartmentModal()">
+      <i class="pi pi-plus"></i> <span>Nouveau Département</span>
+    </button> -->
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- Grille interactive des départements (Style YouTube Premium / Cliquable) -->
+  <div class="departments-grid">
+    <div
+      *ngFor="let dept of departments"
+      class="department-card"
+      (click)="selectDepartment(dept)"
+      [class.active]="selectedDepartmentId === dept.id"
+      tabindex="0"
+      (keydown.enter)="selectDepartment(dept)">
+
+      <div class="card-top-info">
+        <div class="card-icon-wrapper">
+          <span class="dept-icon">{{ dept.icon }}</span>
+        </div>
+
+        <!-- Indicateurs Responsable / Membres actifs -->
+        <div class="indicators-group">
+          <span class="ind-badge resp" [class.checked]="dept.hasResponsable" title="Responsable assigné">
+            <i class="pi" [ngClass]="dept.hasResponsable ? 'pi-check-circle' : 'pi-times-circle'"></i> Resp.
+          </span>
+          <span class="ind-badge mbr" [class.checked]="dept.hasMembers" title="Membres rattachés">
+            <i class="pi" [ngClass]="dept.hasMembers ? 'pi-users' : 'pi-eye-slash'"></i> Membres
+          </span>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="dept-name">{{ dept.name }}</h3>
+        <p class="dept-category">Département Officiel</p>
+
+        <div class="card-footer">
+          <span class="action-trigger">
+            Gérer l'équipe <i class="pi pi-arrow-right"></i>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
