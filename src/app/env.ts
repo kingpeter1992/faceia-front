@@ -11,7 +11,7 @@ export const environment = {
 */
 
    production: true,
-   BASIC_URL: "https://faceia-back.onrender.com",
+   BASIC_URL: "https://faceia-back.onrender.com/",
    BASIC_URL_AUTH_LOGIN: "https://faceia-back.onrender.com/api/auth/login",
    BASIC_URL_REGISTER: "https://faceia-back.onrender.com/api/auth/register",
    BASIC_URL_FORGOT: "https://faceia-back.onrender.com/api/auth/forgot-password",
