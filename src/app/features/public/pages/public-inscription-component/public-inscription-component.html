@@ -1,0 +1,575 @@
+<div class="premium-dialog-container">
+  <!-- =================================================
+ HEADER
+================================================== -->
+  <div class="dialog-premium-header">
+    <div class="header-title-group">
+      <div class="header-icon-box">
+        <mat-icon>
+          person_add
+        </mat-icon>
+      </div>
+      <div class="header-text">
+        <h2>
+          Bienvenue dans notre communauté
+        </h2>
+        <p>
+          Complétez ce formulaire pour finaliser votre inscription
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- =================================================
+ LOADING QR
+================================================== -->
+
+  <div class="loading-screen" *ngIf="loadingQr">
+    <mat-spinner></mat-spinner>
+    <h3>
+      Validation du QR Code...
+    </h3>
+  </div>
+  <!-- =================================================
+ INFORMATIONS DU CULTE
+================================================== -->
+<!-- =================================================
+ INFORMATIONS EGLISE / CULTE
+================================================== -->
+
+<div class="church-card"
+     *ngIf="qrInfo && eglise()">
+
+
+
+  <div class="church-header">
+
+
+    <img
+      *ngIf="eglise()?.churchLogo"
+      [src]="eglise()?.churchLogo"
+      class="church-logo">
+
+
+
+    <div>
+
+
+      <h2>
+        {{eglise()?.churchName}}
+      </h2>
+
+
+
+      <!-- Cas avec culte -->
+      <p *ngIf="culte">
+
+        {{culte.nom}}
+
+      </p>
+
+
+
+      <!-- Cas sans culte -->
+      <p *ngIf="!culte">
+
+        Inscription générale
+
+      </p>
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+  <div class="church-info">
+
+
+
+    <!-- Date uniquement si culte existe -->
+
+    <div *ngIf="culte">
+
+      <mat-icon>
+        event
+      </mat-icon>
+
+      {{culte.dateDebut | date:'dd/MM/yyyy HH:mm'}}
+
+    </div>
+
+
+
+
+
+    <div>
+
+      <mat-icon>
+        person
+      </mat-icon>
+
+
+      {{eglise()?.pasteurResposanble}}
+
+    </div>
+
+
+
+
+
+    <div>
+
+      <mat-icon>
+        location_on
+      </mat-icon>
+
+
+      {{eglise()?.adresse}}
+
+    </div>
+
+
+
+  </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+  <!-- =================================================
+ MESSAGE ACCUEIL
+================================================== -->
+  <div class="welcome-card" *ngIf="qrInfo">
+  <h1>
+👋 Bienvenue
+</h1>
+
+<p *ngIf="culte">
+Merci d'avoir participé au culte
+<strong>{{culte.nom}}</strong>.
+</p>
+
+
+<p *ngIf="!culte">
+Nous sommes heureux de vous accueillir
+dans notre communauté.
+</p>
+  </div>
+  <!-- =================================================
+ FORMULAIRE
+================================================== -->
+  <div class="dialog-premium-content" *ngIf="qrInfo">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <!-- ================= SECTION 01 ================= -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="step">
+            01
+          </span>
+          <span class="section-title">
+            Informations personnelles
+          </span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>
+              Nom
+            </label>
+
+            <input formControlName="nom" placeholder="Votre nom">
+
+          </div>
+
+
+
+
+
+          <div class="form-group">
+
+
+            <label>
+              Prénom
+            </label>
+
+            <input formControlName="prenom" placeholder="Votre prénom">
+
+
+          </div>
+
+
+
+
+
+          <div class="form-group">
+
+
+            <label>
+              Email
+            </label>
+
+
+            <input type="email" formControlName="email" placeholder="email@exemple.com">
+
+
+          </div>
+
+
+
+
+
+          <div class="form-group">
+
+
+            <label>
+              Téléphone
+            </label>
+
+
+            <input formControlName="telephone" placeholder="+243...">
+
+
+          </div>
+
+
+
+
+
+          <div class="form-group full">
+
+
+            <label>
+              Adresse
+            </label>
+
+
+            <input formControlName="adresse" placeholder="Votre adresse">
+
+
+          </div>
+
+
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+      <!-- ================= SECTION 02 ================= -->
+
+
+      <div class="form-section">
+
+
+        <div class="section-header">
+
+
+          <span class="step">
+            02
+          </span>
+
+
+          <span class="section-title">
+
+            Vie spirituelle
+
+          </span>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="form-grid">
+
+
+
+          <div class="form-group full">
+
+
+            <label>
+
+              Qui vous a invité ?
+
+            </label>
+
+
+            <input formControlName="invite" placeholder="Nom de la personne">
+
+
+          </div>
+
+
+
+
+
+
+          <div class="form-group full">
+
+
+            <label>
+
+              Avez-vous une église d'attache ?
+
+            </label>
+
+
+
+            <select formControlName="eglise">
+
+
+              <option value="Oui">
+
+                Oui
+
+              </option>
+
+
+              <option value="Non">
+
+                Non
+
+              </option>
+
+
+
+            </select>
+
+
+          </div>
+
+
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+      <!-- ================= SECTION 03 ================= -->
+
+
+      <div class="form-section">
+
+
+        <div class="section-header">
+
+
+          <span class="step">
+            03
+          </span>
+
+
+          <span class="section-title">
+
+            Votre expérience
+
+          </span>
+
+
+        </div>
+
+
+
+
+
+        <div class="form-grid">
+
+
+
+          <div class="form-group full">
+
+
+            <label>
+
+              Qualité d'accueil
+
+            </label>
+
+
+
+            <select formControlName="accueil">
+
+
+              <option value="Excellent">
+
+                🌟 Excellent
+
+              </option>
+
+
+              <option value="Bon">
+
+                👍 Bon
+
+              </option>
+
+
+              <option value="Moyen">
+
+                👌 Moyen
+
+              </option>
+
+
+
+            </select>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="form-group full">
+
+
+            <label>
+
+              Vos remarques
+
+            </label>
+
+
+          <textarea
+formControlName="avis"
+placeholder="Votre commentaire">
+</textarea>
+
+
+          </div>
+
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+      <!-- ================= ACTIONS ================= -->
+
+
+      <div class="form-actions">
+
+
+
+        <button type="button" class="btn-reset" (click)="resetForm()">
+
+
+
+          <mat-icon>
+            refresh
+          </mat-icon>
+
+
+          Réinitialiser
+
+
+        </button>
+
+
+
+
+
+
+
+
+        <button type="submit" class="btn-save" [disabled]="form.invalid || isLoading">
+
+
+
+          <mat-icon *ngIf="!isLoading">
+
+            save
+
+          </mat-icon>
+
+
+          <span *ngIf="!isLoading">
+
+            Finaliser mon inscription
+
+          </span>
+
+
+
+          <span *ngIf="isLoading">
+
+            Enregistrement...
+
+          </span>
+
+
+
+        </button>
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+    </form>
+
+
+  </div>
+
+
+
+
+
+
+</div>

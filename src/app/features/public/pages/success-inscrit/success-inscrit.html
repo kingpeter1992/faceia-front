@@ -1,0 +1,124 @@
+<div class="success-page">
+
+    <!-- Fond décoratif -->
+    <div class="background-circle circle-1"></div>
+    <div class="background-circle circle-2"></div>
+
+    <div class="success-card">
+
+        <!-- Animation -->
+        <div class="success-icon">
+            <div class="checkmark">
+                <i class="pi pi-check"></i>
+            </div>
+        </div>
+
+        <!-- Message -->
+        <h1>🎉 Bienvenue dans notre famille !</h1>
+
+        <h2>{{ churchName }}</h2>
+
+        <p class="success-message">
+
+            Votre inscription a été enregistrée avec succès.
+
+            Nous sommes heureux de vous accueillir parmi nous.
+
+            Que Dieu vous bénisse abondamment !
+
+        </p>
+
+        <!-- Informations -->
+
+        <div class="info-card">
+
+            <div class="info-item">
+
+                <i class="pi pi-calendar"></i>
+
+                <div>
+
+                    <strong>Prochain culte</strong>
+
+                    <span>{{ prochainCulte }}</span>
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <i class="pi pi-map-marker"></i>
+
+                <div>
+
+                    <strong>Adresse</strong>
+
+                    <span>{{ adresse }}</span>
+
+                </div>
+
+            </div>
+
+            <div class="info-item">
+
+                <i class="pi pi-phone"></i>
+
+                <div>
+
+                    <strong>Contact</strong>
+
+                    <span>{{ telephone }}</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Citation -->
+
+        <div class="verse-card">
+
+            <i class="pi pi-heart-fill"></i>
+
+            <p>
+
+                « Que chacun soit le bienvenu dans la maison du Seigneur. »
+
+            </p>
+
+        </div>
+
+        <!-- Actions -->
+
+        <div class="button-group">
+
+            <button
+                pButton
+                icon="pi pi-map"
+                label="Nous localiser"
+                class="p-button-success"
+                (click)="openMap()">
+            </button>
+
+            <button
+                pButton
+                icon="pi pi-whatsapp"
+                label="WhatsApp"
+                class="p-button-help"
+                (click)="openWhatsapp()">
+            </button>
+
+            <button
+                pButton
+                icon="pi pi-home"
+                label="Accueil"
+                (click)="goHome()">
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

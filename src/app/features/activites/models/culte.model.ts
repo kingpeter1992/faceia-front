@@ -1,3 +1,5 @@
+import { QRType } from "../../Qrcode/models/QrModule";
+
 export interface Intervenant {
   id?: number;
   nom: string;
@@ -86,6 +88,20 @@ export interface GenerateQrResponse {
   url? :string
   expiresAt: string;
   qrCode : string;
+    id?:number;
+  type?:string;
+
+  status?:string;
+
+  active?:boolean;
+
+
+  usedCount?:number;
+
+  maxUses?:number;
+
+  note?:string;
+
 
 }
 
@@ -97,8 +113,10 @@ export interface ValidateQrResponse {
   culteId: number;
 
   message: string;
-
+  evenementId?:number;
   expiresAt: string;
+    type?:QRType;
+
 
 }
 
@@ -175,3 +193,7 @@ export interface ComptageResponse {
   updatedAt?: string;
 
 }
+
+
+
+

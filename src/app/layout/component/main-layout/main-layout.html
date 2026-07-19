@@ -6,9 +6,11 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" [class.closed]="!sidebarOpen">
     <div class="logo-area">
-      <img src="assets/logo/logo.png" alt="E-Church Logo" class="logo-img" />
+      <img  *ngIf="eglise()?.churchLogo"
+        [src]="eglise()?.churchLogo"
+          alt="E-Church Logo" class="logo-img" />
       <div class="brand">
-        <h2>E-Church</h2>
+        <h2>{{eglise()?.churchName}}</h2>
         <span>Management System</span>
       </div>
     </div>

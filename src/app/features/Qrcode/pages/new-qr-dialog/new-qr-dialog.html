@@ -1,0 +1,149 @@
+<div class="qr-dialog-container">
+
+  <!-- HEADER -->
+  <div class="dialog-header">
+
+    <div class="dialog-icon">
+      ✨
+    </div>
+
+    <div>
+      <h2>Créer un nouveau QR Code</h2>
+      <p>Générez un QR sécurisé pour votre église</p>
+    </div>
+
+  </div>
+
+  <!-- CONTENU -->
+  <div class="dialog-content" *ngIf="!generated">
+
+    <!-- COLONNE GAUCHE -->
+    <div class="left-panel">
+
+      <div class="section-title">
+        📌 Type de QR
+      </div>
+
+      <button
+        type="button"
+        class="type-card"
+        *ngFor="let item of types"
+        [class.selected]="form.type===item.value"
+        (click)="selectType(item.value)">
+        <div class="type-icon">
+          {{item.icon}}
+        </div>
+
+        <div class="type-info">
+
+          <h4>{{item.label}}</h4>
+
+          <small>{{item.description}}</small>
+
+        </div>
+
+      </button>
+
+    </div>
+
+    <!-- COLONNE DROITE -->
+    <div class="right-panel">
+
+      <div class="field">
+
+        <label>⏳ Durée de validité</label>
+
+        <div class="input-wrapper">
+
+          <input
+            pInputText
+            type="number"
+            [(ngModel)]="form.expirationMinutes">
+
+          <span>minutes</span>
+
+        </div>
+
+      </div>
+
+      <div class="field">
+
+        <label>📝 Description</label>
+
+        <input
+          pInputText
+          [(ngModel)]="form.note"
+          placeholder="Description du QR">
+
+      </div>
+
+      <!-- Champ ID Culte -->
+    <div class="field">
+      <label>⛪ ID du Culte</label>
+     <input
+  pInputText
+  type="number"
+  [(ngModel)]="form.culteId"
+  [readonly]="!!config.data?.culteId"
+  placeholder="Ex: 123">
+    </div>
+
+      <div class="preview-card">
+
+        <div class="preview-icon">
+
+          🔗
+
+        </div>
+
+        <div>
+
+          <h4>QR sécurisé</h4>
+
+          <p>
+
+            Le système générera automatiquement
+            un lien public sécurisé valable pendant
+            la durée choisie.
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="dialog-actions">
+
+        <button
+          pButton
+          severity="secondary"
+          label="Annuler"
+          (click)="close()">
+        </button>
+
+        <button
+          pButton
+          label="🚀 Générer"
+          (click)="save()">
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GENERATED PREVIEW -->
+<!-- ... Dans la section Generated Preview ... -->
+<div class="qr-preview">
+  <img [src]="qrImageBase64" alt="QR Code" style="width: 200px;">
+</div>
+
+<div class="actions">
+  <button pButton icon="pi pi-download" label="PNG" (click)="downloadPNG()"></button>
+  <button pButton icon="pi pi-file-pdf" label="PDF" (click)="downloadPDF()"></button>
+  <button pButton icon="pi pi-external-link" label="Tester" (click)="openLink()"></button>
+  <button pButton severity="secondary" label="Fermer" (click)="close()"></button>
+</div>
+
+</div>

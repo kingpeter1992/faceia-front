@@ -1,0 +1,223 @@
+/* CONTENEUR GLOBAL RIGIDE SUR 70% AVEC FLEXBOX */
+/* EN-TÊTE FIXE STYLE SMART CHURCH AVEC GRADIENT FLUIDE */
+.dialog-premium-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon-box {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-icon-box mat-icon {
+  font-size: 24px;
+  color: #ffffff;
+  width: 24px;
+  height: 24px;
+}
+
+.header-text h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.header-text p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* BOUTON FERMER INTÉGRÉ DESIGN MINIMALISTE */
+.btn-close-dialog {
+  color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  transition: all 0.25s ease !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.btn-close-dialog:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  transform: rotate(90deg);
+}
+
+/* CORPS DU DIALOGUE SCROLLABLE AVEC COULEUR GRIS DE CAPTURE */
+.dialog-premium-content {
+  padding: 28px;
+  flex: 1;
+  overflow-y: auto;
+  background: #f1f5f9; /* Retrouve le gris clair texturé attendu */
+}
+
+/* BLOC DE SECTIONS FORMULAIRES */
+.form-section {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+
+/* EN-TÊTE DE SECTION (Style barres horizontales épurées) */
+.section-header {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 22px;
+  border-left: 4px solid #4f46e5;
+}
+.section-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.step {
+  width: 26px;
+  height: 26px;
+  background: #4f46e5;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* STRUCTURE EN GRILLE DES INPUTS */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-group.full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 14px;
+  color: #0f172a;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* BOUTONS ACTIONS ACCROCHÉS EN BAS */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 16px;
+}
+
+.btn-reset {
+  background: #e2e8f0;
+  color: #475569;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+.btn-reset:hover { background: #cbd5e1; }
+
+.btn-save {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+}
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* SIZING PERSO DES SCROLLBARS INTERNES */
+.dialog-premium-content::-webkit-scrollbar { width: 6px; }
+.dialog-premium-content::-webkit-scrollbar-track { background: #f1f5f9; }
+.dialog-premium-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+/* CONTENEUR GLOBAL RIGIDE SUR 80% DE L'ÉCRAN */
+.premium-dialog-container {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;              /* 80% de la largeur de l'écran */
+  height: 80vh;             /* 80% de la hauteur de l'écran */
+  max-width: 95vw;          /* Sécurité sur petits écrans */
+  max-height: 95vh;
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Modifiez également ceci pour s'assurer que le formulaire prend le flex complet */
+.dialog-premium-content {
+  padding: 28px;
+  flex: 1 1 auto;           /* Donne l'ordre de remplir tout l'espace disponible */
+  overflow-y: auto;         /* Active le scroll fluide à l'intérieur */
+  background: #f1f5f9;
+}

@@ -31,6 +31,7 @@ export class AuthStoreService {
   private _loading = signal(false);
   private _error = signal<string | null>(null);
 
+
   user = this._user.asReadonly();
   loading = this._loading.asReadonly();
   error = this._error.asReadonly();

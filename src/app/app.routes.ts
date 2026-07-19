@@ -24,6 +24,30 @@ export const routes: Routes = [
   loadComponent: () => import('./features/activites/pages/success-page/success-page').then(m => m.SuccessPage)
 },
 
+
+{
+  path: 'public/inscription/:token',
+  loadComponent: () =>
+      import('./features/public/pages/public-inscription-component/public-inscription-component')
+      .then(c => c.PublicInscriptionComponent)
+},
+
+{
+  path: 'public/token-expired',
+  loadComponent: () =>
+      import('./features/public/pages/invalid-token-component/invalid-token-component')
+      .then(c => c.InvalidTokenComponent)
+},
+
+{
+  path: 'public/success-inscrit',
+  loadComponent: () =>
+      import('./features/public/pages/success-inscrit/success-inscrit')
+      .then(c => c.SuccessInscrit)
+},
+
+///public/token-expired'
+
   /**
     * ROUTES SECURISEES AVEC LAYOUT
     */
@@ -114,6 +138,15 @@ export const routes: Routes = [
       loadChildren: () =>
         import('./features/membres/membres.routes')
           .then(m => m.MEMBRE_ROUTES)
+    },
+
+    {
+      path: 'qrcode',
+      canActivate: [AuthGuard],
+      data: { roles: ['ADMIN','RESPONSABLE_01','RESPONSABLE_02'] },
+      loadChildren: () =>
+        import('./features/Qrcode/qrcode.routes')
+          .then(m => m.QR_ROUTES)
     },
 
     {

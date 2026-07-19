@@ -30,7 +30,7 @@ import { Membre } from '../../models/Membre';
   styleUrl: './nouveau-composant.css',
 })
 export class NouveauComposant implements OnInit {
-form!: FormGroup;
+  form!: FormGroup;
   isLoading = false;
   isEditMode = false;
 

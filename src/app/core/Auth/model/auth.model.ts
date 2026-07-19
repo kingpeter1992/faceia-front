@@ -21,3 +21,40 @@ export interface AuthResponse {
   roles: RoleUser[];
 }
 
+export interface UserConnected {
+
+
+    id:number;
+
+    nom:string;
+
+    prenom:string;
+
+    email:string;
+
+    roles:string[];
+
+
+    eglise:EgliseInfo;
+
+}
+
+
+
+export interface EgliseInfo {
+
+
+    id:number;
+
+    churchName:string;
+
+    churchLogo:string;
+
+    adresse:string;
+
+    email:string;
+
+    telephone1:string;
+    pasteurResposanble? :string,
+
+}

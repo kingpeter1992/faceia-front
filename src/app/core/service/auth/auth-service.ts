@@ -4,7 +4,7 @@ import { finalize, Observable } from 'rxjs';
 
 import { environment } from '../../../env';
 import { LoaderService } from '../../../shared/loader-service';
-import { AuthResponse } from '../../Auth/model/auth.model';
+import { AuthResponse, UserConnected } from '../../Auth/model/auth.model';
 
 export interface LoginRequest {
   email: string;
@@ -26,7 +26,9 @@ export interface RegisterRequest {
 export class AuthService {
 
   private readonly API_AUTH_LOGIN = `${environment.BASIC_URL_AUTH_LOGIN}`;
-    private readonly API_AUTH_REGISTER = `${environment.BASIC_URL_REGISTER}`;
+  private readonly API_AUTH_REGISTER = `${environment.BASIC_URL_REGISTER}`;
+private readonly API_AUTH_ME = `${environment.BASIC_URL_AUTH_ME}`;
+
 
   private readonly API_ADMIN = `${environment.BASIC_URL}/api/admin`;
 
@@ -52,6 +54,14 @@ export class AuthService {
       )
       .pipe(finalize(() => this.loaderService.hide()));
   }
+
+  getCurrentUser(){
+
+return this.http.get<UserConnected>(
+`${this.API_AUTH_ME}`
+);
+
+}
 
   register(payload: RegisterRequest): Observable<AuthResponse> {
     this.loaderService.show();

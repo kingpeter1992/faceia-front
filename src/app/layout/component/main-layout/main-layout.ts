@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CulteStore } from '../../../features/activites/services/CulteStore';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
+import { ChurchSessionStore } from '../../../features/public/egliseInfos/services/church-session.store';
 
 export interface MenuChild {
   label: string;
@@ -42,6 +43,9 @@ export class MainLayout implements OnInit {
   readonly auth = inject(AuthStoreService);
   readonly culteStore = inject(CulteStore);
   readonly router = inject(Router);
+  readonly churchStore = inject(ChurchSessionStore);
+  eglise = this.churchStore.eglise;
+
 
   menuItems: MenuItem1[] = [
     {
@@ -131,6 +135,14 @@ export class MainLayout implements OnInit {
       children: [
         { label: 'Gestion responsables', icon: 'pi pi-briefcase', route: '/responsables', roles: ['ADMIN'] },
         { label: 'Affectations', icon: 'pi pi-send', route: '/responsables/affectations', roles: ['ADMIN'] }
+      ]
+    },
+     {
+      label: 'Qr Code Management',
+      icon: 'pi pi-id-card',
+      roles: ['ADMIN'],
+      children: [
+        { label: 'Gestion de Qr code', icon: 'pi pi-briefcase', route: '/qrcode', roles: ['ADMIN'] },
       ]
     }
   ];

@@ -3,11 +3,13 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../env";
 import { GenerateQrResponse, ValidateQrResponse,  SubmitComptageRequest, GenerateQrRequest, PublicComptageRequest, ComptageResponse } from "../models/culte.model";
 import { Observable } from "rxjs";
+import { QrAccess } from "../../Qrcode/models/QrModule";
 
 @Injectable({
     providedIn:'root'
 })
 export class QrAccessService{
+
 
   private api = environment.BASIC_URL + 'qr-access';
   private comptageApi = environment.BASIC_URL + 'comptages';
@@ -30,6 +32,14 @@ generate(culteId: number): Observable<GenerateQrResponse> {
     `${this.api}/generate`,
     request
   );
+
+}
+
+getAll():Observable<QrAccess[]>{
+
+ return this.http.get<QrAccess[]>(
+   this.api
+ );
 
 }
 
