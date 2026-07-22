@@ -7,6 +7,7 @@ import {
   HostBinding
 } from '@angular/core';
 
+import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { QrManagementStore } from '../../services/qr-management.store';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +24,8 @@ import { NewQrDialog } from '../new-qr-dialog/new-qr-dialog';
 import jsPDF from 'jspdf';
 import { ToastModule } from 'primeng/toast';
 import { Toast } from '../../../../shared/utilities/Toast';
+import { GenerateQrResponse } from '../../../activites/models/culte.model';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboardqr',
@@ -47,9 +50,12 @@ CommonModule,
 })
 export class Dashboardqr implements OnInit {
 
+
   store = inject(QrManagementStore);
   dialog = inject(DialogService);
   toast =  inject(Toast)
+  confirmationService =  inject(ConfirmationService)
+
   qrs = this.store.qrs;
   actifs = this.store.qrActifs;
   expires = this.store.qrExpires;
@@ -209,5 +215,87 @@ downloadPDF(qr: any) {
 
 openLink(url: string) {
   window.open(url, '_blank');
+}
+
+
+revokeQr(qr: GenerateQrResponse): void {
+  Swal.fire({
+    title: 'Confirmer la révocation',
+    text: 'Êtes-vous sûr de vouloir révoquer ce QR Code ?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, révoquer',
+    cancelButtonText: 'Annuler',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.store.revoke(qr.token, () => {
+        Swal.fire({
+          title: 'Révoqué !',
+          text: 'Le QR Code a été révoqué avec succès.',
+          icon: 'success'
+        });
+      });
+    }
+  });
+}
+  deleteQr(qr: GenerateQrResponse) {
+  }
+
+
+  getTypeSeverity(type: string):
+  "success" | "secondary" | "info" | "warn" | "danger" | "contrast" | null {
+
+  switch (type?.toUpperCase()) {
+
+    case 'ACTIVE':
+    case 'VALID':
+      return 'success';
+
+    case 'PENDING':
+    case 'EN_ATTENTE':
+      return 'warn';
+
+    case 'EXPIRED':
+    case 'EXPIRE':
+      return 'danger';
+
+    case 'INFO':
+      return 'info';
+
+    case 'SYSTEM':
+      return 'contrast';
+
+    default:
+      return 'secondary';
+  }
+}
+
+
+getTypeLabel(type: string): string {
+console.log('stat', type)
+  switch (type?.toUpperCase()) {
+
+    case 'ACTIVE':
+      return 'Actif';
+
+    case 'VALID':
+      return 'Valide';
+
+    case 'PENDING':
+    case 'EN_ATTENTE':
+      return 'En attente';
+
+    case 'EXPIRED':
+    case 'EXPIRE':
+      return 'Expiré';
+
+    case 'SYSTEM':
+      return 'Système';
+
+    default:
+      return type ?? 'Inconnu';
+  }
 }
 }

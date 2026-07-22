@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { CulteStore } from '../../../features/activites/services/CulteStore';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
-import { ChurchSessionStore } from '../../../features/public/egliseInfos/services/church-session.store';
 
 export interface MenuChild {
   label: string;
@@ -43,9 +42,8 @@ export class MainLayout implements OnInit {
   readonly auth = inject(AuthStoreService);
   readonly culteStore = inject(CulteStore);
   readonly router = inject(Router);
-  readonly churchStore = inject(ChurchSessionStore);
-  eglise = this.churchStore.eglise;
 
+  eglise = computed(() => this.auth.user()?.eglise);
 
   menuItems: MenuItem1[] = [
     {
@@ -157,26 +155,44 @@ export class MainLayout implements OnInit {
       }));
   });
 
-ngOnInit() {
-  const user = this.auth.user();
-  const initials = user ? `${user.prenom?.charAt(0) || ''}${user.nom?.charAt(0) || ''}` : 'User';
-  const fullName = user ? `${user.prenom || ''} ${user.nom || ''}` : 'Admin';
-  const role = user?.roles?.[0] || 'ADMINISTRATOR';
 
-  this.items1 = [
-    {
-      label: fullName,
-      data: {
-        initials: initials,
-        role: `Role: ${role}`
-      },
-      items: [
-        { label: 'Profil', icon: 'pi pi-id-card', routerLink: '/profile' },
-        { label: 'Déconnexion', icon: 'pi pi-sign-out', command: () => this.logout() }
-      ]
-    }
-  ];
-}
+  ngOnInit() {
+
+    const user = this.auth.user();
+
+    const initials = user
+      ? `${user.prenom?.charAt(0) || ''}${user.nom?.charAt(0) || ''}`
+      : 'User';
+
+    const fullName = user
+      ? `${user.prenom || ''} ${user.nom || ''}`
+      : 'Admin';
+
+    const role = user?.roles?.[0] || 'ADMINISTRATOR';
+
+
+    this.items1 = [
+      {
+        label: fullName,
+        data: {
+          initials: initials,
+          role: `Role: ${role}`
+        },
+        items: [
+          {
+            label: 'Profil',
+            icon: 'pi pi-id-card',
+            routerLink: '/profile'
+          },
+          {
+            label: 'Déconnexion',
+            icon: 'pi pi-sign-out',
+            command: () => this.logout()
+          }
+        ]
+      }
+    ];
+  }
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;

@@ -208,25 +208,28 @@ export class QrManagementStore {
       });
 
   }
-validateToken(token: string) {
+validateToken(token:string){
 
+  return this.service.validateToken(token);
 
+}
+
+delete(token: string, callback?: () => void) {
   this._loading.set(true);
-
-  this._error.set(null);
-
-
-  return this.service
-    .validateToken(token)
-    .pipe(
-      tap((response: ValidateQrResponse) => {
-        this._qrInfo.set(response);
-      }),
-      finalize(() => {
+  this.service.delete(token)
+    .subscribe({
+      next: () => {
+        this._qrs.update(list =>
+          list.filter(q => q.token !== token)
+        );
         this._loading.set(false);
-      })
+        callback?.();
+      },
+      error: () => {
+        this._loading.set(false);
+      }
 
-    );
+    });
 
 }
 

@@ -907,3 +907,119 @@ transform:translateY(-2px);
     background:#0f172a;
 
 }
+.qr-mini{
+
+width:72px;
+height:72px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:white;
+
+border-radius:18px;
+
+border:1px solid #e2e8f0;
+
+box-shadow:
+0 8px 20px rgba(15,23,42,.08);
+
+}
+
+.qr-mini img{
+
+width:58px;
+height:58px;
+
+}
+.actions-cell{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+.action-btn{
+
+width:42px!important;
+
+height:42px!important;
+
+border-radius:14px!important;
+
+transition:.25s;
+
+}
+
+.action-btn:hover{
+
+transform:translateY(-3px) scale(1.08);
+
+box-shadow:
+0 12px 25px rgba(79,70,229,.18);
+
+}
+::ng-deep .p-confirm-dialog {
+
+  background: #111827 !important;
+
+  border-radius: 24px !important;
+
+  overflow: hidden !important;
+
+  opacity: 1 !important;
+
+  backdrop-filter: none !important;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45) !important;
+}
+.confirm-content
+{
+    background: linear-gradient(
+    145deg,
+    #111827,
+    #1f2937
+  ) !important;
+
+  color: white !important;
+}
+
+/* Zone entière */
+::ng-deep .p-confirm-dialog .p-dialog-content {
+
+  background: linear-gradient(
+    145deg,
+    #111827,
+    #1f2937
+  ) !important;
+
+  color: white !important;
+
+}
+
+
+/* Header */
+::ng-deep .p-confirm-dialog .p-dialog-header {
+
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #dc2626
+  ) !important;
+
+  color: white !important;
+
+}
+
+
+/* Footer */
+::ng-deep .p-confirm-dialog .p-dialog-footer {
+
+  background: #111827 !important;
+
+}

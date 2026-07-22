@@ -11,6 +11,7 @@ import { PublicQrInfo } from "../models/PublicQrInfo";
 })
 export class QrManagementService {
 
+
 private readonly api = environment.BASIC_URL + 'qr-access';
 
   constructor(private http: HttpClient) {}
@@ -28,6 +29,12 @@ private readonly api = environment.BASIC_URL + 'qr-access';
   }
 
   revoke(token: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.api}/${token}`
+    );
+  }
+
+   delete(token: string) {
     return this.http.delete<void>(
       `${this.api}/${token}`
     );

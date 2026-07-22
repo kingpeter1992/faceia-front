@@ -7,7 +7,7 @@ import { jwtInterceptor } from './core/Jwt/interceptor';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 // ✅ Importer le fournisseur
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -19,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
      providePrimeNG({}),
      DialogService, // 👈 Déclarez-le ici pour qu'il soit accessible partout
+    ConfirmationService,
      provideNativeDateAdapter(), // 👈 Ajouté ici pour toute l'application
     provideAnimations(),
     provideHttpClient(withInterceptors([jwtInterceptor]))

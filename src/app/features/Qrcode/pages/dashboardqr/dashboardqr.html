@@ -1,325 +1,288 @@
 <div class="dashboard" [ngClass]="{ 'dark-mode': isDarkMode }">
 
-    <!-- ================= HEADER ================= -->
-    <div class="header-card">
-        <div class="dashboard-header">
+  <!-- ================= HEADER ================= -->
+  <div class="header-card">
+    <div class="dashboard-header">
 
-            <div class="header-left">
-                <div class="header-icon">📱</div>
+      <div class="header-left">
+        <div class="header-icon">📱</div>
 
-                <div class="header-text">
-                    <h1>QR Management Center</h1>
-                    <p>⛪ Gestion intelligente des accès QR</p>
+        <div class="header-text">
+          <h1>QR Management Center</h1>
+          <p>⛪ Gestion intelligente des accès QR</p>
 
-                    <div class="header-badges">
-                        <span>🔐 Sécurisé</span>
-                        <span>⚡ Temps réel</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="header-actions">
-
-                <button
-                    class="btn-theme"
-                    (click)="isDarkMode=!isDarkMode">
-
-                    {{isDarkMode ? '☀️ Mode Clair' : '🌙 Mode Sombre'}}
-
-                </button>
-
-                <button
-                    pButton
-                    label="Nouveau QR"
-                    icon="pi pi-plus"
-                    (click)="openNewQr()">
-                </button>
-
-            </div>
-
+          <div class="header-badges">
+            <span>🔐 Sécurisé</span>
+            <span>⚡ Temps réel</span>
+          </div>
         </div>
+      </div>
+
+      <div class="header-actions">
+
+        <button class="btn-theme" (click)="isDarkMode=!isDarkMode">
+
+          {{isDarkMode ? '☀️ Mode Clair' : '🌙 Mode Sombre'}}
+
+        </button>
+
+        <button pButton label="Nouveau QR" icon="pi pi-plus" (click)="openNewQr()">
+        </button>
+
+      </div>
+
     </div>
+  </div>
 
 
-    <!-- ================= STATS ================= -->
+  <!-- ================= STATS ================= -->
 
-    <div class="stats-grid">
+  <div class="stats-grid">
 
-        <div
-            class="stat-card"
-            *ngFor="let stat of stats()">
+    <div class="stat-card" *ngFor="let stat of stats()">
 
-            <div class="icon">
-                {{stat.icon}}
-            </div>
+      <div class="icon">
+        {{stat.icon}}
+      </div>
 
-            <div>
-                <span>{{stat.label}}</span>
-                <h2>{{stat.val}}</h2>
-            </div>
-
-        </div>
+      <div>
+        <span>{{stat.label}}</span>
+        <h2>{{stat.val}}</h2>
+      </div>
 
     </div>
 
+  </div>
 
-    <!-- ================= FILTRES ================= -->
 
-    <div class="filters-card">
+  <!-- ================= FILTRES ================= -->
 
-        <div class="filter">
+  <div class="filters-card">
 
-            <label>🔎 Recherche</label>
+    <div class="filter">
 
-            <input
-                pInputText
-                [(ngModel)]="recherche"
-                placeholder="Rechercher..." />
+      <label>🔎 Recherche</label>
 
-        </div>
-
-        <div class="filter">
-
-            <label>📌 Type</label>
-
-            <p-select
-                [options]="typesQr"
-                optionLabel="label"
-                optionValue="value"
-                [(ngModel)]="filtreType"
-                placeholder="Tous">
-            </p-select>
-
-        </div>
-
-        <div class="filter">
-
-            <label>📊 Statut</label>
-
-            <p-select
-                [options]="statusQr"
-                [(ngModel)]="filtreStatus"
-                placeholder="Tous">
-            </p-select>
-
-        </div>
+      <input pInputText [(ngModel)]="recherche" placeholder="Rechercher..." />
 
     </div>
 
+    <div class="filter">
 
-    <!-- ================= TABLE ================= -->
+      <label>📌 Type</label>
 
-    <div class="table-card">
-
-        <p-table
-            [value]="filteredQrs()"
-            [loading]="loading()"
-            responsiveLayout="scroll">
-
-            <ng-template pTemplate="header">
-
-                <tr>
-
-                    <th>QR</th>
-                    <th>Type</th>
-                    <th>Note</th>
-                    <th>Statut</th>
-                    <th width="150">Actions</th>
-
-                </tr>
-
-            </ng-template>
-
-
-            <ng-template
-                pTemplate="body"
-                let-qr>
-
-                <tr>
-
-                    <td>
-
-                        <img
-                            [src]="qr.qrCode"
-                            width="45"
-                            style="border-radius:8px">
-
-                    </td>
-
-                    <td>
-
-                        {{getTypeIcon(qr.type)}} {{qr.type}}
-
-                    </td>
-
-                    <td>
-
-                        {{qr.note || 'Aucune'}}
-
-                    </td>
-
-                    <td>
-
-                        <p-tag
-                            [value]="qr.status"
-                            [severity]="qr.status==='ACTIVE' ? 'success' : 'danger'">
-                        </p-tag>
-
-                    </td>
-
-                    <td>
-
-                        <button
-                            pButton
-                            icon="pi pi-eye"
-                            class="p-button-text"
-                            (click)="viewQr(qr)">
-                            ok
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            </ng-template>
-
-        </p-table>
+      <p-select [options]="typesQr" optionLabel="label" optionValue="value" [(ngModel)]="filtreType" placeholder="Tous">
+      </p-select>
 
     </div>
+
+    <div class="filter">
+
+      <label>📊 Statut</label>
+
+      <p-select [options]="statusQr" [(ngModel)]="filtreStatus" placeholder="Tous">
+      </p-select>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= TABLE ================= -->
+
+  <div class="table-card">
+
+    <p-table [value]="filteredQrs()" [loading]="loading()" responsiveLayout="scroll">
+
+      <ng-template pTemplate="header">
+
+        <tr>
+
+          <th>QR</th>
+          <th>Type</th>
+          <th>Note</th>
+          <th>Statut</th>
+          <th>Date création</th>
+          <th width="150">Actions</th>
+
+        </tr>
+
+      </ng-template>
+
+
+      <ng-template pTemplate="body" let-qr>
+
+        <tr>
+
+         <td>
+
+        <div class="qr-mini">
+
+        <img
+        [src]="qr.qrCode">
+
+        </div>
+
+        </td>
+    <td>
+
+            {{qr.note || 'Aucune'}}
+
+          </td>
+          <td>
+
+            {{getTypeIcon(qr.type)}} {{qr.type}}
+
+          </td>
+  <td>
+
+
+            <p-tag
+          [value]="getTypeLabel(qr.status)"
+            [severity]="getTypeSeverity(qr.status)">
+            </p-tag>
+
+          </td>
+
+
+          <td>
+
+            {{qr.createdAt | date:'dd/MM/yyyy HH:mm'}}
+
+          </td>
+
+
+          <td class="actions-cell">
+
+            <button pButton pRipple icon="pi pi-eye" severity="info" class="action-btn" pTooltip="Visualiser"
+              (click)="viewQr(qr)">
+            </button>
+
+            <button *ngIf="qr.status==='ACTIVE'" pButton pRipple icon="pi pi-ban" severity="warn" class="action-btn"
+              pTooltip="Révoquer" (click)="revokeQr(qr)">
+            </button>
+
+            <button pButton pRipple icon="pi pi-trash" severity="danger" class="action-btn" pTooltip="Supprimer"
+              (click)="deleteQr(qr)">
+            </button>
+
+          </td>
+
+
+
+
+
+        </tr>
+
+      </ng-template>
+
+    </p-table>
+
+  </div>
 
 </div>
 
 
 <!-- ================= DIALOG ================= -->
-<p-dialog
-    [(visible)]="displayQrDialog"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [closable]="true"
-    [style]="{ width: '560px' }"
-    styleClass="premium-qr-dialog">
+<p-dialog [(visible)]="displayQrDialog" [modal]="true" [draggable]="false" [resizable]="false" [closable]="true"
+  [style]="{ width: '560px' }" styleClass="premium-qr-dialog">
 
-    <!-- Header -->
-    <ng-template pTemplate="header">
-        <div class="dialog-header">
-            <div class="dialog-icon">
-                <i class="pi pi-qrcode"></i>
-            </div>
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <div class="dialog-icon">
+        <i class="pi pi-qrcode"></i>
+      </div>
 
-            <div>
-                <h2>QR Code</h2>
-                <small>Téléchargez ou partagez ce QR Code</small>
-            </div>
+      <div>
+        <h2>QR Code</h2>
+        <small>Téléchargez ou partagez ce QR Code</small>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Corps -->
+  <div class="dialog-wrapper" *ngIf="selectedQr">
+
+    <div class="dialog-body">
+
+      <!-- QR -->
+      <div class="qr-card">
+
+        <img [src]="selectedQr.qrCode" alt="QR Code">
+
+      </div>
+
+      <!-- Informations -->
+      <div class="info-card">
+
+        <div class="info-row">
+          <span>Type</span>
+          <strong>
+            {{getTypeIcon(selectedQr.type)}}
+            {{selectedQr.type}}
+          </strong>
         </div>
-    </ng-template>
 
-    <!-- Corps -->
-    <div class="dialog-wrapper" *ngIf="selectedQr">
+        <div class="info-row">
+          <span>Statut</span>
 
-        <div class="dialog-body">
-
-            <!-- QR -->
-            <div class="qr-card">
-
-                <img
-                    [src]="selectedQr.qrCode"
-                    alt="QR Code">
-
-            </div>
-
-            <!-- Informations -->
-            <div class="info-card">
-
-                <div class="info-row">
-                    <span>Type</span>
-                    <strong>
-                        {{getTypeIcon(selectedQr.type)}}
-                        {{selectedQr.type}}
-                    </strong>
-                </div>
-
-                <div class="info-row">
-                    <span>Statut</span>
-
-                    <p-tag
-                        [value]="selectedQr.status"
-                        [severity]="selectedQr.status=='ACTIVE' ? 'success':'danger'">
-                    </p-tag>
-
-                </div>
-
-                <div class="info-row">
-
-                    <span>Note</span>
-
-                    <strong>
-                        {{selectedQr.note || 'Aucune'}}
-                    </strong>
-
-                </div>
-
-            </div>
-
-            <!-- Lien -->
-
-            <div class="link-card">
-
-                <label>
-                    <i class="pi pi-link"></i>
-                    Lien Public
-                </label>
-
-                <div class="p-inputgroup">
-
-                    <input
-                        pInputText
-                        [value]="selectedQr.url"
-                        readonly>
-
-                    <button
-                        pButton
-                        icon="pi pi-copy"
-                        severity="secondary"
-                        (click)="copyLink(selectedQr.url)">
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- Actions -->
-
-            <div class="actions">
-
-                <button
-                    pButton
-                    icon="pi pi-download"
-                    label="PNG"
-                    severity="success"
-                    (click)="downloadPNG(selectedQr)">
-                </button>
-
-                <button
-                    pButton
-                    icon="pi pi-file-pdf"
-                    label="PDF"
-                    severity="danger"
-                    (click)="downloadPDF(selectedQr)">
-                </button>
-
-                <button
-                    pButton
-                    icon="pi pi-external-link"
-                    label="Tester"
-                    severity="info"
-                    (click)="openLink(selectedQr.url)">
-                </button>
-
-            </div>
+          <p-tag [value]="selectedQr.status" [severity]="selectedQr.status=='ACTIVE' ? 'success':'danger'">
+          </p-tag>
 
         </div>
+
+        <div class="info-row">
+
+          <span>Note</span>
+
+          <strong>
+            {{selectedQr.note || 'Aucune'}}
+          </strong>
+
+        </div>
+
+      </div>
+
+      <!-- Lien -->
+
+      <div class="link-card">
+
+        <label>
+          <i class="pi pi-link"></i>
+          Lien Public
+        </label>
+
+        <div class="p-inputgroup">
+
+          <input pInputText [value]="selectedQr.url" readonly>
+
+          <button pButton icon="pi pi-copy" severity="secondary" (click)="copyLink(selectedQr.url)">
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Actions -->
+
+      <div class="actions">
+
+
+
+        <button pButton icon="pi pi-download" label="PNG" severity="success" (click)="downloadPNG(selectedQr)">
+        </button>
+
+        <button pButton icon="pi pi-file-pdf" label="PDF" severity="danger" (click)="downloadPDF(selectedQr)">
+        </button>
+
+        <button pButton icon="pi pi-external-link" label="Tester" severity="info" (click)="openLink(selectedQr.url)">
+        </button>
+
+      </div>
 
     </div>
+
+  </div>
 
 </p-dialog>

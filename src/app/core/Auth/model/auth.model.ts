@@ -1,3 +1,4 @@
+import { EgliseInfo } from "../../../features/activites/models/culte.model";
 import { RoleUser } from "../../../features/admin/model/admin-user.model";
 
 export interface LoginRequest {
@@ -19,42 +20,7 @@ export interface AuthResponse {
   prenom: string;
   email: string;
   roles: RoleUser[];
-}
-
-export interface UserConnected {
-
-
-    id:number;
-
-    nom:string;
-
-    prenom:string;
-
-    email:string;
-
-    roles:string[];
-
-
-    eglise:EgliseInfo;
-
+  eglise : EgliseInfo
 }
 
 
-
-export interface EgliseInfo {
-
-
-    id:number;
-
-    churchName:string;
-
-    churchLogo:string;
-
-    adresse:string;
-
-    email:string;
-
-    telephone1:string;
-    pasteurResposanble? :string,
-
-}

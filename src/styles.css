@@ -74,3 +74,22 @@
   border-radius: 12px !important;
   overflow: hidden !important;
 }
+html,
+body {
+
+  height:100%;
+
+  margin:0;
+
+  overflow-y:auto;
+
+}
+
+
+app-root {
+
+  min-height:100vh;
+
+  display:block;
+
+}

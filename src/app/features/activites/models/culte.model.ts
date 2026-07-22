@@ -107,19 +107,29 @@ export interface GenerateQrResponse {
 
 
 export interface ValidateQrResponse {
-
   valid: boolean;
-
-  culteId: number;
-
+  culteId?: number;
+  evenementId?: number;
   message: string;
-  evenementId?:number;
-  expiresAt: string;
-    type?:QRType;
+  expiresAt?: string;
+  type?: QRType;
 
-
+  // Nouvelle propriété
+  eglise?: EgliseInfo;
 }
 
+export interface EgliseInfo {
+  id: number;
+  churchName: string;
+  churchLogo?: string;
+  adresse: string;
+  email?: string;
+  telephone1?: string;
+  telephone2?: string;
+  pasteurResponsable?: string;
+  valide: boolean;
+  createdAt: string;
+}
 
 export interface GenerateQrRequest {
 
